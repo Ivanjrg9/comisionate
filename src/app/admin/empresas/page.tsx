@@ -2,18 +2,24 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { dateEs } from "@/lib/format";
+import { Pagination } from "@/components/Pagination";
+import { SearchBox } from "@/components/SearchBox";
+import { ilikeAny, pageParams } from "@/lib/pagination";
 
 export const metadata: Metadata = { title: "Empresas" };
 
 const STATES = ["pendiente", "verificada", "suspendida", "expulsada", "baja"];
 
 export default async function AdminCompaniesPage({ searchParams }: PageProps<"/admin/empresas">) {
-  const { estado } = await searchParams;
+  const sp = await searchParams;
+  const estado = sp.estado;
+  const { page, q, from, to } = pageParams(sp);
   const filter = STATES.find((s) => s === estado);
   const supabase = await createClient();
-  let query = supabase.from("companies").select("id, legal_name, cif, status, founder_until, late_payments, created_at").order("created_at", { ascending: false });
+  let query = supabase.from("companies").select("id, legal_name, cif, status, founder_until, late_payments, created_at", { count: "exact" }).order("created_at", { ascending: false }).range(from, to);
   if (filter) query = query.eq("status", filter);
-  const { data } = await query;
+  if (q) query = query.or(ilikeAny(["legal_name", "cif"], q));
+  const { data, count } = await query;
 
   const chip = (href: string, label: string, active: boolean) => (
     <Link key={label} href={href} aria-current={active ? "page" : undefined}
@@ -22,6 +28,7 @@ export default async function AdminCompaniesPage({ searchParams }: PageProps<"/a
   return (
     <>
       <h1 className="mb-4 text-2xl font-bold">Empresas</h1>
+      <SearchBox q={q} placeholder="Buscar por razón social o CIF" keep={{ estado: filter }} />
       <nav aria-label="Filtrar por estado" className="mb-6 flex gap-2 overflow-x-auto pb-1">
         {chip("/admin/empresas", "Todas", !filter)}
         {STATES.map((s) => chip(`/admin/empresas?estado=${s}`, s, filter === s))}
@@ -42,6 +49,7 @@ export default async function AdminCompaniesPage({ searchParams }: PageProps<"/a
         ))}
         {!data?.length && <p className="text-muted">No hay empresas {filter ? "en este estado" : ""}.</p>}
       </ul>
+      <Pagination page={page} total={count ?? 0} basePath="/admin/empresas" params={{ estado: filter, q }} />
     </>
   );
 }

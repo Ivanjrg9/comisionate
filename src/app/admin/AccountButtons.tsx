@@ -6,7 +6,7 @@ import { setAccountStatus } from "./actions";
 const LABEL = { activo: "Activa", suspendido: "Suspendida", expulsado: "Expulsada", baja: "De baja" } as const;
 
 export function AccountBadge({ status }: { status: keyof typeof LABEL }) {
-  const tone = status === "activo" ? "bg-primary/15 text-primary" : status === "baja" ? "bg-surface text-muted" : "bg-danger/15 text-danger";
+  const tone = status === "activo" ? "bg-primary/15 text-on-tint" : status === "baja" ? "bg-surface text-muted" : "bg-danger/15 text-danger";
   return <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${tone}`}>{LABEL[status]}</span>;
 }
 

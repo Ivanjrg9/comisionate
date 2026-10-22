@@ -12,7 +12,7 @@ export const COMMISSION_LABEL: Record<CommissionStatus, string> = {
 export const COMMISSION_TONE: Record<CommissionStatus, string> = {
   pendiente: "bg-accent/40",
   exigible: "bg-accent/40",
-  pagada_empresa: "bg-primary/15 text-primary",
+  pagada_empresa: "bg-primary/15 text-on-tint",
   recibida: "bg-primary text-primary-foreground",
   no_recibida: "bg-danger/15 text-danger",
   anulada: "bg-surface text-muted",

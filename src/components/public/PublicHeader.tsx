@@ -8,7 +8,7 @@ export function PublicHeader() {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3 sm:gap-x-6">
         <Logo />
         <nav aria-label="Principal" className="order-last flex w-full gap-1 overflow-x-auto sm:order-none sm:w-auto">
-          {[["/como-funciona", "Cómo funciona"], ["/preguntas-frecuentes", "Preguntas frecuentes"]].map(([href, label]) => (
+          {[["/ofertas", "Ofertas"], ["/como-funciona", "Cómo funciona"], ["/preguntas-frecuentes", "Preguntas frecuentes"]].map(([href, label]) => (
             <Link key={href} href={href} className="whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium hover:bg-surface">{label}</Link>
           ))}
         </nav>

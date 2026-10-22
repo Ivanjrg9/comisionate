@@ -16,9 +16,9 @@ export const LEAD_STATUS_LABEL: Record<LeadStatus, string> = {
 export const LEAD_STATUS_TONE: Record<LeadStatus, string> = {
   registrado: "bg-surface text-foreground",
   lead_cualificado: "bg-accent/40 text-foreground",
-  venta: "bg-primary/15 text-primary",
+  venta: "bg-primary/15 text-on-tint",
   periodo_cancelacion: "bg-accent/40 text-foreground",
-  confirmada: "bg-primary/15 text-primary",
+  confirmada: "bg-primary/15 text-on-tint",
   pagada: "bg-primary text-primary-foreground",
   rechazado: "bg-danger/15 text-danger",
   cancelada: "bg-danger/15 text-danger",

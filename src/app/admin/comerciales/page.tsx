@@ -2,19 +2,27 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { dateEs } from "@/lib/format";
 import { AccountBadge, AccountButtons } from "../AccountButtons";
+import { Pagination } from "@/components/Pagination";
+import { SearchBox } from "@/components/SearchBox";
+import { ilikeAny, pageParams } from "@/lib/pagination";
 
 export const metadata: Metadata = { title: "Comerciales" };
 
-export default async function AdminSalespeoplePage() {
+export default async function AdminSalespeoplePage({ searchParams }: PageProps<"/admin/comerciales">) {
+  const { page, q, from, to } = pageParams(await searchParams);
   const supabase = await createClient();
-  const { data } = await supabase
+  let query = supabase
     .from("profiles")
-    .select("id, full_name, email, status, created_at, leaving_at, salespeople(fiscal, zone)")
+    .select("id, full_name, email, status, created_at, leaving_at, salespeople(fiscal, zone)", { count: "exact" })
     .eq("role", "comercial")
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .range(from, to);
+  if (q) query = query.or(ilikeAny(["full_name", "email"], q));
+  const { data, count } = await query;
   return (
     <>
       <h1 className="mb-6 text-2xl font-bold">Comerciales</h1>
+      <SearchBox q={q} placeholder="Buscar por nombre o email" />
       <ul className="space-y-3">
         {(data ?? []).map((p) => {
           const sp = p.salespeople as unknown as { fiscal: string; zone: string } | null;
@@ -32,6 +40,7 @@ export default async function AdminSalespeoplePage() {
           );
         })}
       </ul>
+      <Pagination page={page} total={count ?? 0} basePath="/admin/comerciales" params={{ q }} />
     </>
   );
 }

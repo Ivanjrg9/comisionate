@@ -9,11 +9,14 @@ import { Field, Select, buttonClass } from "@/components/form";
 import { Avatar } from "@/components/Avatar";
 import { publicUrl } from "@/lib/storage";
 import { Badges, Rating, type CompanyStats } from "@/components/Badges";
+import { Pagination } from "@/components/Pagination";
+import { PAGE_SIZE, pageParams } from "@/lib/pagination";
 
 export const metadata: Metadata = { title: "Ofertas" };
 
 export default async function MarketplacePage({ searchParams }: PageProps<"/comercial/ofertas">) {
   const q = Object.fromEntries(Object.entries(await searchParams).map(([k, v]) => [k, Array.isArray(v) ? v[0] : (v ?? "")]));
+  const pg = pageParams(await searchParams);
   const supabase = await createClient();
   const sectors = await getSectors();
 
@@ -32,8 +35,10 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
     .map((o) => ({ ...o, est: estimatedCommissionCents(o) }))
     .filter((o) => o.est >= min)
     .sort((a, b) => b.est - a.est);
+  const total = offers.length;
+  const visible = offers.slice(pg.from, pg.from + PAGE_SIZE);
 
-  const companyIds = [...new Set(offers.map((o) => (o.companies as unknown as { id: string }).id))];
+  const companyIds = [...new Set(visible.map((o) => (o.companies as unknown as { id: string }).id))];
   const { data: statRows } = companyIds.length ? await supabase.rpc("company_public_stats", { p_companies: companyIds }) : { data: [] };
   const stats = new Map<string, CompanyStats>((statRows ?? []).map((r: CompanyStats & { company_id: string }) => [r.company_id, r]));
 
@@ -58,11 +63,11 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
         <button className={buttonClass}>Filtrar</button>
       </form>
 
-      {!offers.length ? (
+      {!visible.length ? (
         <p className="text-muted">No hay ofertas con esos filtros.</p>
       ) : (
         <ul className="grid gap-4 md:grid-cols-2">
-          {offers.map((o) => {
+          {visible.map((o) => {
             const company = o.companies as unknown as { id: string; legal_name: string; logo_path: string | null };
             const st = stats.get(company.id);
             return (
@@ -92,6 +97,7 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
           })}
         </ul>
       )}
+      <Pagination page={pg.page} total={total} basePath="/comercial/ofertas" params={{ sector: q.sector, zona: q.zona, tipo: q.tipo, min: q.min }} />
     </>
   );
 }

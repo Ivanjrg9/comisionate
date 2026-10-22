@@ -24,6 +24,7 @@ export function Footer() {
         <nav aria-label="Plataforma" className="space-y-2 text-sm">
           <p className="font-semibold">Plataforma</p>
           <ul className="space-y-1">
+            <li><Link className="hover:underline" href="/ofertas">Ofertas</Link></li>
             <li><Link className="hover:underline" href="/como-funciona">Cómo funciona</Link></li>
             <li><Link className="hover:underline" href="/preguntas-frecuentes">Preguntas frecuentes</Link></li>
             <li><Link className="hover:underline" href="/registro?rol=empresa">Soy empresa</Link></li>

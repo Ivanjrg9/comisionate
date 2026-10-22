@@ -33,7 +33,7 @@ export default function HowItWorksPage() {
               <span aria-hidden className="absolute -left-[2.15rem] flex size-7 items-center justify-center rounded-full bg-accent text-sm font-extrabold text-neutral-900">{i + 1}</span>
               <h3 className="text-lg font-bold">{s.title}</h3>
               <p className="mt-1 leading-relaxed text-muted">{s.text}</p>
-              <p className="mt-1 inline-block rounded-full bg-primary/15 px-3 py-0.5 text-sm font-semibold text-primary">{s.term}</p>
+              <p className="mt-1 inline-block rounded-full bg-primary/15 px-3 py-0.5 text-sm font-semibold text-on-tint">{s.term}</p>
             </li>
           ))}
         </ol>

@@ -5,6 +5,9 @@ import { LEAD_STATUS_LABEL, type LeadStatus } from "@/lib/lead-status";
 import { StatusBadge } from "@/components/StatusBadge";
 import { ActionForm } from "@/components/ActionForm";
 import { qualifyLead } from "./actions";
+import { Pagination } from "@/components/Pagination";
+import { SearchBox } from "@/components/SearchBox";
+import { ilikeAny, pageParams } from "@/lib/pagination";
 
 export const metadata: Metadata = { title: "Leads y ventas" };
 
@@ -12,17 +15,22 @@ const FILTERS = Object.keys(LEAD_STATUS_LABEL).filter((s) => s !== "venta") as L
 const daysSince = (iso: string) => Math.floor((Date.now() - new Date(iso).getTime()) / 864e5);
 
 export default async function CompanyLeadsPage({ searchParams }: PageProps<"/empresa/leads">) {
-  const { estado } = await searchParams;
+  const sp = await searchParams;
+  const estado = sp.estado;
+  const { page, q, from, to } = pageParams(sp);
   const filter = FILTERS.find((s) => s === estado);
   const supabase = await createClient();
 
   let query = supabase
     .from("leads")
-    .select("id, customer_name, status, created_at, needs_review, offers(title), salespeople(profiles(full_name))")
-    .order("created_at", { ascending: false });
+    .select("id, customer_name, status, created_at, needs_review, offers(title), salespeople(profiles(full_name))", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .range(from, to);
   if (filter) query = query.eq("status", filter);
-  const { data: leads, error } = await query;
-  if (error) throw new Error(error.message);
+  if (q) query = query.or(ilikeAny(["customer_name", "phone_e164"], q));
+  const { data: leads, error, count } = await query;
+  // Una página fuera de rango (PGRST103) no es un fallo: se muestra vacía con enlace al inicio.
+  if (error && error.code !== "PGRST103") throw new Error(error.message);
 
   const chip = (href: string, label: string, active: boolean) => (
     <Link key={label} href={href} aria-current={active ? "page" : undefined}
@@ -34,12 +42,13 @@ export default async function CompanyLeadsPage({ searchParams }: PageProps<"/emp
   return (
     <>
       <h1 className="mb-4 text-2xl font-bold">Leads y ventas</h1>
+      <SearchBox q={q} placeholder="Buscar por nombre o teléfono" keep={{ estado: filter }} />
       <nav aria-label="Filtrar por estado" className="mb-6 flex gap-2 overflow-x-auto pb-1">
         {chip("/empresa/leads", "Todos", !filter)}
         {FILTERS.map((s) => chip(`/empresa/leads?estado=${s}`, LEAD_STATUS_LABEL[s], filter === s))}
       </nav>
       {!leads?.length ? (
-        <p className="text-muted">No hay leads {filter ? "en este estado" : "todavía"}.</p>
+        <p className="text-muted">{page > 1 && <><Link href="/empresa/leads" className="font-semibold text-primary underline">Volver a la primera página</Link>. </>}No hay leads {filter ? "en este estado" : "todavía"}.</p>
       ) : (
         <ul className="space-y-3">
           {leads.map((l) => {
@@ -72,6 +81,7 @@ export default async function CompanyLeadsPage({ searchParams }: PageProps<"/emp
           })}
         </ul>
       )}
+      <Pagination page={page} total={count ?? 0} basePath="/empresa/leads" params={{ estado: filter, q }} />
     </>
   );
 }

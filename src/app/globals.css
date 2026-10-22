@@ -6,11 +6,12 @@
   --muted: #5b6472;
   --surface: #f5f7f6;
   --border: #dfe4e1;
-  --primary: #16a34a;
+  --primary: #15803d; /* verde de marca oscurecido para contraste AA con texto blanco (el #16a34a daba 3,3:1) */
   --primary-foreground: #ffffff;
   --accent: #facc15;
   --danger: #b91c1c;
   --forest: #14532d;
+  --on-tint: #14532d; /* texto sobre fondos verdes tintados (etiquetas) */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,6 +24,7 @@
     --primary: #22c55e;
     --primary-foreground: #052e14;
     --danger: #f87171;
+    --on-tint: #86efac;
   }
 }
 
@@ -37,6 +39,7 @@
   --color-accent: var(--accent);
   --color-danger: var(--danger);
   --color-forest: var(--forest);
+  --color-on-tint: var(--on-tint);
   --font-sans: var(--font-inter);
 }
 

@@ -30,3 +30,7 @@
 | 26 | Sin banner de cookies | Solo se usan cookies técnicas de sesión (exentas de consentimiento). Si se añade analítica habrá que añadir banner y actualizar la política. |
 | 27 | Textos legales con aviso visible «plantilla pendiente de revisión» mientras `LEGAL.draft` sea true | La spec pide plantillas a revisar por un profesional; evita publicarlas por descuido. |
 | 28 | Páginas públicas estáticas (sin leer la sesión en la cabecera) | Rendimiento y caché en Vercel; la cabecera pública no cambia según el usuario. |
+| 29 | `--primary` pasa de `#16a34a` a `#15803d` (modo claro) y texto sobre fondos verdes tintados usa `--on-tint` | Auditoría axe-core: el blanco sobre `#16a34a` daba 3,3:1 (AA exige 4,5:1) en 82 elementos. Tras el cambio: 0 violaciones WCAG 2.1 AA en 31 pantallas, claro y oscuro. El verde `#16a34a` original sigue en el icono. |
+| 30 | Marketplace público `/ofertas` (solo ofertas activas, sin datos de personas) con revalidación de 5 min | Ayuda a convencer a comerciales y al SEO sin abrir datos privados; la RLS anónima solo permite `status = 'activa'`. |
+| 31 | Anti-bots del registro: campo trampa + tiempo mínimo de 1,2 s; límites de Auth de Supabase para el resto | Sin captcha ni cuentas de terceros. Si hay abuso real, añadir Cloudflare Turnstile (gratis). |
+| 32 | Cabeceras de seguridad (nosniff, X-Frame-Options DENY, HSTS, Referrer-Policy, Permissions-Policy); sin CSP por ahora | Una CSP estricta con Next exige nonces; se deja como mejora tras el piloto. |

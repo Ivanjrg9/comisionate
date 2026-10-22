@@ -3,19 +3,25 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { StatusBadge } from "@/components/StatusBadge";
 import { dateEs } from "@/lib/format";
+import { Pagination } from "@/components/Pagination";
+import { SearchBox } from "@/components/SearchBox";
+import { ilikeAny, pageParams } from "@/lib/pagination";
 
 export const metadata: Metadata = { title: "Leads y ventas" };
 
 export default async function AdminLeadsPage({ searchParams }: PageProps<"/admin/leads">) {
-  const { revision } = await searchParams;
+  const sp = await searchParams;
+  const revision = typeof sp.revision === "string" ? sp.revision : undefined;
+  const { page, q, from, to } = pageParams(sp);
   const supabase = await createClient();
   let query = supabase
     .from("leads")
-    .select("id, customer_name, status, created_at, needs_review, offers(title, companies(legal_name)), salespeople(profiles(full_name))")
+    .select("id, customer_name, status, created_at, needs_review, offers(title, companies(legal_name)), salespeople(profiles(full_name))", { count: "exact" })
     .order("created_at", { ascending: false })
-    .limit(200);
+    .range(from, to);
   if (revision) query = query.eq("needs_review", true);
-  const { data } = await query;
+  if (q) query = query.or(ilikeAny(["customer_name", "phone_e164"], q));
+  const { data, count } = await query;
   return (
     <>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
@@ -24,6 +30,7 @@ export default async function AdminLeadsPage({ searchParams }: PageProps<"/admin
           {revision ? "Ver todos" : "Solo los que requieren revisión"}
         </Link>
       </div>
+      <SearchBox q={q} placeholder="Buscar por cliente o teléfono" keep={{ revision }} />
       <ul className="space-y-3">
         {(data ?? []).map((l) => {
           const o = l.offers as unknown as { title: string; companies: { legal_name: string } };
@@ -42,6 +49,7 @@ export default async function AdminLeadsPage({ searchParams }: PageProps<"/admin
         })}
         {!data?.length && <p className="text-muted">No hay leads.</p>}
       </ul>
+      <Pagination page={page} total={count ?? 0} basePath="/admin/leads" params={{ revision, q }} />
     </>
   );
 }
