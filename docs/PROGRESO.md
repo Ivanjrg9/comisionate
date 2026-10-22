@@ -3,6 +3,18 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Endurecimiento previo al piloto — TERMINADO
+- Seguridad: una empresa con deuda o en baja ya no puede reactivar ofertas ocultas; un comercial suspendido no puede registrar
+  clientes aunque conserve la sesión; cabeceras de seguridad. **Bug real corregido:** al pagar una empresa suspendida por impago,
+  la reactivación de ofertas fallaba (orden cuenta/ofertas).
+- Cuentas: recuperar contraseña (email → enlace → nueva contraseña, sin revelar si existe la cuenta), política de contraseña,
+  anti-bots en el registro, aceptación de términos con fecha y versión (también para Google), emails de Auth en español.
+- Producto: marketplace público `/ofertas`, paginación y búsqueda en los listados, aviso al admin cuando hay una empresa por
+  verificar, avisos de perfil incompleto, botón de Google (activable).
+- Accesibilidad: auditoría axe-core en 31 pantallas (claro/oscuro): 0 violaciones WCAG 2.1 AA tras corregir el contraste.
+- Tests: **81 unitarios/BD + 33 E2E** (Playwright en Chrome: flujo completo de negocio, acceso, recuperación de contraseña con
+  lectura del email, anti-bots, web pública en móvil y escritorio).
+
 ## Fase 7 — TERMINADA
 - Landing (`/`): hero con «ticket de comisión» (500 € al comercial + 50 € de tarifa = 550 € que paga la empresa), pasos,
   bloques para comerciales y empresas, calculadora de ganancias, FAQ y llamada a la acción. Modo claro y oscuro.

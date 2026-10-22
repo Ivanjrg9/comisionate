@@ -49,6 +49,11 @@ export default async function CompanyHome() {
       </p>
 
       <div className="mb-6 space-y-2">
+        {(!company.sector_id || !company.billing_address) && (
+          <Link href="/empresa/perfil" className="block rounded-lg bg-accent/30 p-3 font-medium underline">
+            Completa el perfil de tu empresa (sector y datos de facturación) para poder publicar ofertas y recibir facturas.
+          </Link>
+        )}
         {company.status === "suspendida" && (
           <Link href="/empresa/facturas" role="alert" className="block rounded-lg bg-danger/10 p-3 font-semibold text-danger underline">
             Tu cuenta está suspendida por un pago pendiente. Se reactivará en cuanto se registre el pago.

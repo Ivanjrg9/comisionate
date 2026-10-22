@@ -43,6 +43,11 @@ export function OfferForm({ offer, sectors }: { offer?: OfferValues; sectors: { 
   return (
     <form onSubmit={onSubmit} className="space-y-4" noValidate>
       {offer?.id && <input type="hidden" name="id" value={offer.id} />}
+      {offer?.status === "oculta" && (
+        <p role="status" className="rounded-lg bg-danger/10 p-3 text-sm text-danger">
+          Esta oferta está oculta por un pago pendiente. Se volverá a mostrar sola en cuanto te pongas al día; hasta entonces no puedes publicarla.
+        </p>
+      )}
       <Field label="Título de la oferta" name="title" defaultValue={offer?.title} required error={e.title} />
       <TextArea label="Descripción" name="description" defaultValue={offer?.description} error={e.description} />
       <div className="grid gap-4 sm:grid-cols-2">

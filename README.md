@@ -69,7 +69,8 @@ Contraseña de todos: `Comisionate123!`
 | `npm run dev` | Servidor de desarrollo |
 | `npm run build` / `npm start` | Compilar y arrancar en producción |
 | `npm run lint` | ESLint |
-| `npm test` | Tests (necesita `supabase start` y el seed) |
+| `npm test` | Tests unitarios y de base de datos, Vitest (necesita `supabase start` y el seed) |
+| `npm run test:e2e` | Pruebas de extremo a extremo con Playwright: compila la app y la prueba en Chrome (necesita `supabase start` y el seed; usa el puerto 3100) |
 | `npx tsc --noEmit` | Comprobar tipos |
 
 ## Estructura
@@ -85,6 +86,7 @@ src/lib/            Supabase, validación (zod), PDFs, contenidos y utilidades
 supabase/migrations esquema, lógica de negocio en SQL, RLS, Storage y tareas pg_cron
 supabase/seed.sql   datos de ejemplo
 tests/              Vitest: lógica de negocio, RLS, pagos, impagos, bajas, PDFs
+e2e/                Playwright: flujo completo empresa→comercial→cobro, acceso, recuperar contraseña, web pública
 ```
 
 ## Cómo está pensada la seguridad

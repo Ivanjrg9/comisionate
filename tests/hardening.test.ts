@@ -82,3 +82,13 @@ describe("una empresa castigada no puede reactivar sus ofertas", () => {
     expect((await client.from("offers").update({ status: "activa" }).eq("id", offer!.id)).error?.message).toMatch(/baja/);
   });
 });
+
+describe("avisos al administrador", () => {
+  it("una empresa nueva genera un aviso «por verificar» para los admins", async () => {
+    const { id } = await newUser("empresa", { legal_name: `Aviso ${stamp} SL` });
+    const company = (await db.from("companies").select("id").eq("owner_id", id).single()).data!.id;
+    const admin = (await db.from("profiles").select("id").eq("role", "admin").single()).data!.id;
+    const { data } = await db.from("notifications").select("link, body").eq("user_id", admin).eq("kind", "empresa_nueva").eq("body", `Aviso ${stamp} SL`);
+    expect(data).toEqual([{ link: `/admin/empresas/${company}`, body: `Aviso ${stamp} SL` }]);
+  });
+});

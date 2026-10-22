@@ -90,7 +90,7 @@ export default async function SalespersonCommissionsPage() {
                     ) : <InvoiceUpload commissionId={c.id} />}
                   </div>
                 )}
-                {status === "recibida" && !reviewed.has(c.id) && <ReviewForm commissionId={c.id} whom="la empresa" />}
+                {status === "recibida" && !reviewed.has(c.id) && <ReviewForm commissionId={c.id} whom="a la empresa" />}
                 <div className="flex flex-wrap gap-4 text-sm font-medium">
                   {sp?.fiscal === "particular" && (status === "pagada_empresa" || status === "recibida") && (
                     <a className="text-primary underline" href={`/api/comisiones/${c.id}/justificante`}>Descargar justificante de pago (PDF)</a>

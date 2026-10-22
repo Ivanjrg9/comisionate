@@ -33,7 +33,8 @@ gh repo create comisionate --private --source=. --push
    **No ejecutes el seed en producción.**
 3. Comprueba en *SQL Editor*: `select jobname, schedule from cron.job;` → deben salir 4 tareas (`confirm-due-sales`, `process-overdue`, `monthly-invoices`, `finalize-leaves`). Y en *Storage* deben existir los buckets `logos`, `photos`, `materials`, `invoices`.
 4. **Authentication → URL Configuration:** *Site URL* = `https://comisionate.com`; *Redirect URLs* = `https://comisionate.com/**` (y `http://localhost:3000/**` si quieres probar en local contra producción).
-5. **Authentication → Providers → Email:** deja activada la **confirmación de email**.
+5. **Authentication → Providers → Email:** deja activada la **confirmación de email**. En **Email Templates** pega las plantillas en español de `supabase/templates/` (confirmación, recuperación de contraseña y cambio de email), o aplícalas con `supabase config push`.
+   Ajusta también **Authentication → Rate Limits** (por defecto son razonables; el valor local de `email_sent = 200` es solo para pruebas).
 6. **Authentication → SMTP Settings:** el correo integrado de Supabase está muy limitado; configura SMTP con Resend (host `smtp.resend.com`, puerto `465`, usuario `resend`, contraseña = tu API key de Resend, remitente `avisos@comisionate.com`).
 7. *(Opcional)* **Google:** crea unas credenciales OAuth en Google Cloud (tipo «Aplicación web», URI de redirección = la que muestra Supabase en *Providers → Google*), pégalas en Supabase y pon `NEXT_PUBLIC_GOOGLE_ENABLED=true` en Vercel. Solo está disponible para comerciales (las empresas se registran con email porque necesitan CIF).
 8. Claves: *Project Settings → API Keys* (o `supabase projects api-keys --project-ref <REF>`): la **publishable key** y la **secret key**.
@@ -79,6 +80,8 @@ En Vercel → *Settings → Domains*:
 3. Cierra sesión y vuelve a entrar: verás el panel `/admin`.
 
 ## 7. Repaso tras desplegar
+
+Antes de nada, en local: `npm test` y `npm run test:e2e` deben estar en verde.
 
 - [ ] Registro de empresa y de comercial funciona y llega el email de confirmación.
 - [ ] El admin verifica la empresa; la empresa publica una oferta; el comercial se une y registra un cliente.

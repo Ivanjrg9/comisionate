@@ -16,9 +16,9 @@ const ids = async (c: SupabaseClient, table: string, col = "company_id") =>
   new Set(((await c.from(table).select(col)).data ?? []).map((r) => (r as unknown as Record<string, string>)[col]));
 
 describe("RLS", () => {
-  it("un anónimo no ve leads, comisiones ni ofertas", async () => {
+  it("un anónimo no ve leads, comisiones ni datos de personas (las ofertas activas sí son públicas)", async () => {
     const a = anon();
-    for (const t of ["leads", "commissions", "offers", "memberships", "profiles"]) {
+    for (const t of ["leads", "commissions", "memberships", "profiles"]) {
       expect((await a.from(t).select("id")).data ?? []).toHaveLength(0);
     }
   });

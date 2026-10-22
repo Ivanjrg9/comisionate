@@ -49,7 +49,7 @@ export function ReviewForm({ commissionId, whom }: { commissionId: string; whom:
   const { state, onSubmit, pending } = useServerForm(submitReview);
   return (
     <details className="text-sm">
-      <summary className="cursor-pointer font-semibold text-primary underline">Valorar a {whom}</summary>
+      <summary className="cursor-pointer font-semibold text-primary underline">Valorar {whom}</summary>
       <form onSubmit={onSubmit} className="mt-2 space-y-3" noValidate>
         <input type="hidden" name="commission_id" value={commissionId} />
         <Select label="Puntuación" name="stars" defaultValue="5">
