@@ -15,6 +15,11 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
           Te hemos enviado un email. Confírmalo para poder entrar.
         </p>
       )}
+      {error === "enlace" && (
+        <p role="alert" className="mb-4 rounded-lg bg-danger/10 p-3 text-sm text-danger">
+          El enlace ha caducado o ya se ha usado. Pide uno nuevo desde «¿Has olvidado tu contraseña?».
+        </p>
+      )}
       {error === "cuenta" && (
         <p role="alert" className="mb-4 rounded-lg bg-danger/10 p-3 text-sm text-danger">
           Tu cuenta no está activa (suspendida, expulsada o cerrada). Si crees que es un error, escríbenos.

@@ -27,6 +27,7 @@ export function GoogleButton({ label = "Continuar con Google" }: { label?: strin
         </svg>
         {label}
       </button>
+      <p className="text-xs text-muted">Al continuar aceptas los términos de uso y la política de privacidad.</p>
       {error && <p role="alert" className="text-sm text-danger">{error}</p>}
     </div>
   );

@@ -3,13 +3,23 @@
 import { register } from "../actions";
 import { Field, buttonClass } from "@/components/form";
 import { useServerForm } from "@/components/useServerForm";
+import { useEffect, useRef } from "react";
 
 export function RegisterForm({ role }: { role: "empresa" | "comercial" }) {
   const { state, onSubmit, pending } = useServerForm(register);
   const e = state.fieldErrors ?? {};
+  const started = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (started.current) started.current.value = String(Date.now());
+  }, []);
   return (
     <form onSubmit={onSubmit} className="space-y-4" noValidate>
       <input type="hidden" name="role" value={role} />
+      <input ref={started} type="hidden" name="started" defaultValue="" />
+      {/* Campo trampa para bots: invisible para personas y lectores de pantalla. */}
+      <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+        <label>No rellenar<input type="text" name="website" tabIndex={-1} autoComplete="off" /></label>
+      </div>
       <Field label="Tu nombre y apellidos" name="full_name" autoComplete="name" required error={e.full_name} />
       {role === "empresa" ? (
         <>
@@ -35,7 +45,7 @@ export function RegisterForm({ role }: { role: "empresa" | "comercial" }) {
         </>
       )}
       <Field label="Email" name="email" type="email" autoComplete="email" required error={e.email} />
-      <Field label="Contraseña" name="password" type="password" autoComplete="new-password" hint="Mínimo 8 caracteres" required error={e.password} />
+      <Field label="Contraseña" name="password" type="password" autoComplete="new-password" hint="Mínimo 8 caracteres, con letras y números" required error={e.password} />
       <div>
         <label className="flex items-start gap-3 text-sm">
           <input type="checkbox" name="terms" className="mt-0.5 size-5 shrink-0 accent-primary" />

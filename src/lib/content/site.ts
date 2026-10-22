@@ -17,6 +17,8 @@ export const LEGAL = {
   registry: process.env.NEXT_PUBLIC_LEGAL_REGISTRY ?? "[DATOS DEL REGISTRO MERCANTIL, si procede]",
   email: process.env.NEXT_PUBLIC_LEGAL_EMAIL ?? "[EMAIL DE CONTACTO]",
   updated: "22 de octubre de 2026",
+  /** Versión de los términos y la política de privacidad que se guarda al registrarse. Cámbiala cuando cambien los textos. */
+  version: "2026-10-22",
 };
 
 /** Plazos y porcentajes del modelo de negocio (los mismos que usa la base de datos). */

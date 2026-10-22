@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 const email = z.email("Escribe un email válido");
-const password = z.string().min(8, "La contraseña debe tener al menos 8 caracteres");
+export const passwordSchema = z
+  .string()
+  .regex(/^(?=.*[A-Za-z])(?=.*\d).{8,}$/, "La contraseña debe tener al menos 8 caracteres, con letras y números");
+const password = passwordSchema;
 
 export const loginSchema = z.object({ email, password: z.string().min(1, "Escribe tu contraseña") });
 
