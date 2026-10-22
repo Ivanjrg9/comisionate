@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LoginForm } from "./LoginForm";
+import { GoogleButton, OrDivider } from "@/components/GoogleButton";
 
 export const metadata: Metadata = { title: "Entrar" };
 
@@ -24,6 +25,8 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
           Tu cuenta se ha cerrado y tus datos personales se han anonimizado. Gracias por haber formado parte de ComisionaTe.
         </p>
       )}
+      <GoogleButton label="Entrar con Google" />
+      <OrDivider />
       <LoginForm next={typeof next === "string" ? next : undefined} />
       <p className="mt-6 text-center text-sm text-muted">
         ¿Aún no tienes cuenta? <Link href="/registro?rol=comercial" className="font-semibold text-primary underline">Regístrate</Link>

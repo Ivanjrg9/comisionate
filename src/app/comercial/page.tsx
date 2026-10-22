@@ -13,10 +13,11 @@ export const metadata: Metadata = { title: "Panel de comercial" };
 export default async function SalespersonHome() {
   const supabase = await createClient();
   const profile = await getProfile();
-  const [{ data: commissions }, { data: leads }, { count: codes }] = await Promise.all([
+  const [{ data: commissions }, { data: leads }, { count: codes }, { data: sp }] = await Promise.all([
     supabase.from("commissions").select("amount_cents, status"),
     supabase.from("leads").select("status"),
     supabase.from("memberships").select("id", { count: "exact", head: true }).eq("status", "activa"),
+    supabase.from("salespeople").select("nif").eq("id", profile!.id).single(),
   ]);
 
   const totals = { pendiente: 0, confirmada: 0, cobrada: 0 };
@@ -36,6 +37,12 @@ export default async function SalespersonHome() {
         <h1 className="text-2xl font-bold">Hola, {profile?.full_name}</h1>
         <Link href="/comercial/leads/nuevo" className={buttonClass}>Registrar cliente</Link>
       </div>
+
+      {!sp?.nif && (
+        <Link href="/comercial/perfil" className="mb-6 block rounded-lg bg-accent/30 p-3 font-medium underline">
+          Completa tu perfil (DNI/NIE y si eres autónomo o particular) para poder cobrar tus comisiones.
+        </Link>
+      )}
 
       {toConfirm > 0 && (
         <Link href="/comercial/comisiones" className="mb-6 block rounded-lg bg-primary/15 p-3 font-medium underline">

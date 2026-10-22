@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RegisterForm } from "./RegisterForm";
+import { GoogleButton, OrDivider } from "@/components/GoogleButton";
 
 export const metadata: Metadata = { title: "Crear cuenta" };
 
@@ -23,6 +24,12 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
         {tab("comercial", "Soy comercial")}
         {tab("empresa", "Soy empresa")}
       </nav>
+      {role === "comercial" && (
+        <>
+          <GoogleButton label="Registrarme con Google" />
+          <OrDivider />
+        </>
+      )}
       <RegisterForm key={role} role={role} />
       <p className="mt-6 text-center text-sm text-muted">
         ¿Ya tienes cuenta? <Link href="/login" className="font-semibold text-primary underline">Entrar</Link>
