@@ -46,6 +46,8 @@ begin
            description = 'Instalación de placas solares y autoconsumo en ' || (array['Andalucía','Madrid','Valencia'])[i] || '.',
            zone = (array['Andalucía','Madrid','Comunidad Valenciana'])[i],
            website = 'https://example.com',
+           billing_address = 'Calle de Ejemplo ' || i || ', ' || (array['Sevilla','Madrid','Valencia'])[i],
+           billing_email = 'facturacion' || i || '@example.com',
            founder_until = case when i = 1 then date '2027-01-22' end,
            fee_percent_override = case when i = 3 then 8 end
      where owner_id = c_owner returning id into cid;
