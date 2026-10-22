@@ -1,14 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
 import { register } from "../actions";
 import { Field, buttonClass } from "@/components/form";
+import { useServerForm } from "@/components/useServerForm";
 
 export function RegisterForm({ role }: { role: "empresa" | "comercial" }) {
-  const [state, action, pending] = useActionState(register, {});
+  const { state, onSubmit, pending } = useServerForm(register);
   const e = state.fieldErrors ?? {};
   return (
-    <form action={action} className="space-y-4" noValidate>
+    <form onSubmit={onSubmit} className="space-y-4" noValidate>
       <input type="hidden" name="role" value={role} />
       <Field label="Tu nombre y apellidos" name="full_name" autoComplete="name" required error={e.full_name} />
       {role === "empresa" ? (

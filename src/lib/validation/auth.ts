@@ -29,4 +29,4 @@ export const registerSchema = z
     }
   });
 
-export type FormState = { error?: string; fieldErrors?: Record<string, string> };
+export type FormState = { error?: string; fieldErrors?: Record<string, string>; ok?: boolean };

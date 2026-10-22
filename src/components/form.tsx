@@ -38,3 +38,45 @@ export function Field({
     </div>
   );
 }
+
+const controlClass = "block min-h-11 w-full rounded-lg border border-border bg-background px-3 py-2";
+
+export function TextArea({ label, error, ...props }: { label: string; error?: string } & ComponentProps<"textarea">) {
+  const id = props.id ?? props.name;
+  return (
+    <div className="space-y-1">
+      <label htmlFor={id} className="block text-sm font-medium">{label}</label>
+      <textarea id={id} rows={4} aria-invalid={error ? true : undefined} className={controlClass} {...props} />
+      {error && <p role="alert" className="text-sm text-danger">{error}</p>}
+    </div>
+  );
+}
+
+export function Select({ label, error, children, ...props }: { label: string; error?: string } & ComponentProps<"select">) {
+  const id = props.id ?? props.name;
+  return (
+    <div className="space-y-1">
+      <label htmlFor={id} className="block text-sm font-medium">{label}</label>
+      <select id={id} aria-invalid={error ? true : undefined} className={controlClass} {...props}>{children}</select>
+      {error && <p role="alert" className="text-sm text-danger">{error}</p>}
+    </div>
+  );
+}
+
+export function Checkbox({ label, hint, ...props }: { label: string; hint?: string } & ComponentProps<"input">) {
+  return (
+    <label className="flex items-start gap-3 py-1">
+      <input type="checkbox" className="mt-0.5 size-5 shrink-0 accent-primary" {...props} />
+      <span>
+        {label}
+        {hint && <span className="block text-sm text-muted">{hint}</span>}
+      </span>
+    </label>
+  );
+}
+
+export function FormMessage({ state }: { state: { error?: string; ok?: boolean } }) {
+  if (state.error) return <p role="alert" className="text-sm text-danger">{state.error}</p>;
+  if (state.ok) return <p role="status" className="text-sm font-medium text-primary">Cambios guardados ✓</p>;
+  return null;
+}

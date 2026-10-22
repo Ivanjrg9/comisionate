@@ -3,6 +3,16 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Fase 2 — TERMINADA
+- Storage: buckets `logos`, `photos` (públicos), `materials`, `invoices` (privados); políticas por carpeta `<uid>/`.
+- Empresa: perfil (con logo), ofertas (crear/editar/pausar/publicar; comisión por lead y/o venta, fija o %),
+  material de venta (PDF/imagen), solicitudes de comerciales (aprobar/rechazar).
+- Comercial: perfil (fiscal, IBAN, sectores, foto), marketplace con filtros (sector, provincia, tipo, comisión mínima),
+  detalle con condiciones y aceptación con un clic (snapshot inmutable), códigos (copiar + WhatsApp).
+- Formularios con `useServerForm`: no se vacían al devolver errores de validación.
+- Tests: 29 en total (`tests/offers*.test.ts` nuevos). Revisado con Playwright en 375 y 1280 px.
+- Decisión: el % de comisión **por lead** se calcula sobre el precio orientativo del producto (ver DECISIONES).
+
 ## Fase 1 — TERMINADA
 - Next.js 16 + Tailwind 4 + TS, identidad visual (verde/amarillo, Inter, logo, modo oscuro).
 - Supabase local: esquema completo con enums, RLS en todas las tablas, funciones SQL de negocio
@@ -20,6 +30,7 @@ admin@comisionate.test · empresa1..3@comisionate.test · comercial1..10@comisio
 
 ### Pendiente / conocido
 - Login con Google: botón y configuración en Supabase (Fase 8, requiere cuenta Google Cloud).
-- Los paneles son solo un saludo; el contenido llega en las fases 2-6.
-- Storage (logos, materiales, facturas PDF) se crea en la Fase 2.
+- Los paneles «Resumen» son solo un saludo; los dashboards llegan en la Fase 4.
+- El bucket `invoices` está creado pero aún sin uso (facturas de autónomos: Fase 4).
+- El admin aún no tiene pantalla para verificar empresas (Fase 6); hasta entonces se hace en BD.
 - Puerto 3000 ocupado en este Mac por otra app (Remotion): Next usa 3001.
