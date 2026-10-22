@@ -15,3 +15,9 @@
 | 11 | Filtro «comisión mínima» sobre una estimación (lead + venta sobre el precio orientativo) | Permite filtrar y ordenar ofertas mezclando comisiones fijas y porcentuales. |
 | 12 | PDFs con `pdf-lib` y fuentes estándar (Helvetica, WinAnsi): los caracteres no soportados salen como «?» | Evita embeber fuentes (peso y licencias); cubre español y €. |
 | 13 | Justificante solo para comerciales «particular»; los autónomos suben su propia factura | Es lo que pide la spec (sección 4). |
+| 14 | Lead sin respuesta: aviso a los 15 días y revisión del admin **7 días después** del aviso | La spec dice «si sigue sin respuesta» sin plazo; 7 días es prudente. Fácil de cambiar en `process_overdue`. |
+| 15 | Impago de comisión +15 días: solo notifica al admin; **la suspensión la decide el admin** | La spec dice «si no se resuelve → suspendida»; se deja la decisión humana. Con factura impagada a +30 días la suspensión es automática (así lo pide la spec). |
+| 16 | Plazos de la factura de ComisionaTe (15/25/30) se cuentan **desde la emisión** | Es la lectura literal de la spec (plazo de pago 15 días desde emisión; +15 aviso). |
+| 17 | La factura mensual agrupa comisiones **firmes y no facturadas hasta fin de mes** (no solo las del mes) | Evita que se pierdan comisiones si un mes falla la tarea; el total siempre coincide con las líneas. |
+| 18 | Emails con Vercel Cron diario (`/api/cron/emails`) + Resend por `fetch` | Sin librería ni Edge Function; en plan Hobby el cron mínimo es diario. Con pg_net + URL pública se podría acercar a tiempo real. |
+| 19 | La factura PDF de ComisionaTe indica «importe sin IVA» | La spec no define el tratamiento del IVA de la tarifa del 10 %: **pregunta de negocio abierta** (ver resumen de la Fase 5). |

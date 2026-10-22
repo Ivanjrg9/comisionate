@@ -3,6 +3,23 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Fase 5 — TERMINADA
+- Facturación mensual (`generate_monthly_invoices`, pg_cron día 1 a las 04:00): suma las tarifas de las comisiones firmes
+  no facturadas por empresa; numeración `CT-AAAAMM-NNNN`; vence a los 15 días; idempotente; las fundadoras (0 %) no reciben.
+  La empresa ve sus facturas y las descarga en PDF (`/empresa/facturas`, `/api/facturas/[id]`).
+- Impago empresa → comercial (desde «No recibido»): +3 d aviso, +10 d segundo aviso + ofertas ocultas + 1 impago,
+  +15 d revisión del admin. Al volver a pagar se reactivan las ofertas.
+- Factura de ComisionaTe sin pagar (días desde la emisión): 15 vencida, 25 ofertas ocultas y bloqueo de validar ventas
+  (trigger), 30 cuenta suspendida. `admin_mark_invoice_paid` reactiva todo (la pantalla del admin llega en la Fase 6).
+- Leads sin respuesta: aviso a los 15 días y paso a revisión del admin 7 días después; recordatorio 3 días antes de
+  vencer un pago; avisos al confirmarse una venta.
+- Notificaciones: campana en todas las áreas (sin JS, accesible) + email con Resend (`/api/cron/emails`, Vercel Cron diario,
+  protegido con `CRON_SECRET`; sin `RESEND_API_KEY` no envía nada).
+- pg_cron: `confirm-due-sales` (cada hora), `process-overdue` (03:15 diario), `monthly-invoices` (día 1, 04:00).
+- Tests: 54 (facturación, plazos, escalado de impagos, bloqueo, reactivación, email). Revisado con Playwright.
+- Pendiente: etiqueta «Empresa con pagos pendientes» en el marketplace/perfil público (las ofertas ya se ocultan) y
+  suspender manualmente por impago de comisión (Fase 6, admin).
+
 ## Fase 4 — TERMINADA
 - Pagos: la empresa marca «pagada» (muestra IBAN mientras hay pago pendiente) y el comercial confirma «recibido» o
   «no recibido» (la empresa puede volver a marcarlo). Al cobrarse todo, el lead pasa a «Pagada».

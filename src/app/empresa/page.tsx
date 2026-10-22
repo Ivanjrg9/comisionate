@@ -13,10 +13,11 @@ const SOLD: LeadStatus[] = ["periodo_cancelacion", "confirmada", "pagada"];
 export default async function CompanyHome() {
   const supabase = await createClient();
   const company = await getMyCompany();
-  const [{ data: leads }, { data: commissions }, { count: pendingRequests }] = await Promise.all([
+  const [{ data: leads }, { data: commissions }, { count: pendingRequests }, { data: inDefault }] = await Promise.all([
     supabase.from("leads").select("status, created_at, salesperson_id, salespeople(profiles(full_name))"),
     supabase.from("commissions").select("amount_cents, fee_cents, status, due_at, salesperson_id"),
     supabase.from("memberships").select("id", { count: "exact", head: true }).eq("status", "pendiente"),
+    supabase.rpc("company_in_default", { p_company: company.id }),
   ]);
 
   const all = leads ?? [];
@@ -48,6 +49,16 @@ export default async function CompanyHome() {
       </p>
 
       <div className="mb-6 space-y-2">
+        {company.status === "suspendida" && (
+          <Link href="/empresa/facturas" role="alert" className="block rounded-lg bg-danger/10 p-3 font-semibold text-danger underline">
+            Tu cuenta está suspendida por un pago pendiente. Se reactivará en cuanto se registre el pago.
+          </Link>
+        )}
+        {inDefault && company.status !== "suspendida" && (
+          <Link href="/empresa/comisiones" className="block rounded-lg bg-danger/10 p-3 font-medium text-danger underline">
+            Empresa con pagos pendientes: tus ofertas están ocultas y no puedes validar ventas nuevas hasta ponerte al día.
+          </Link>
+        )}
         {waiting > 0 && <Link href="/empresa/leads?estado=registrado" className="block rounded-lg bg-danger/10 p-3 font-medium underline">{waiting} lead(s) llevan más de 10 días sin respuesta. Tienes 15 días para contestar.</Link>}
         {overdue > 0 && <Link href="/empresa/comisiones" className="block rounded-lg bg-danger/10 p-3 font-medium underline">{overdue} comisión(es) con el plazo de pago vencido.</Link>}
         {!!pendingRequests && <p className="rounded-lg bg-accent/30 p-3 font-medium">Tienes {pendingRequests} solicitud(es) de comerciales por aprobar, en cada oferta.</p>}

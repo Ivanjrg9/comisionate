@@ -77,7 +77,7 @@ describe("RLS", () => {
   });
 
   it("solo los comerciales pueden unirse a ofertas, respetando «solo autónomos»", async () => {
-    const { data: offer } = await admin.from("offers").select("id").eq("title", "Solar para empresas y naves").single();
+    const { data: offer } = await admin.from("offers").select("id").eq("title", "Autoconsumo para comunidades").single();
     const com8 = await loginAs("comercial8@comisionate.test"); // particular
     expect((await com8.rpc("join_offer", { p_offer: offer!.id })).error?.message).toMatch(/autónomos/);
     expect((await empresa1.rpc("join_offer", { p_offer: offer!.id })).error).not.toBeNull();

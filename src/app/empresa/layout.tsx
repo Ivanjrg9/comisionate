@@ -9,6 +9,7 @@ export default async function EmpresaLayout({ children }: LayoutProps<"/empresa"
         { href: "/empresa/ofertas", label: "Ofertas" },
         { href: "/empresa/leads", label: "Leads y ventas" },
         { href: "/empresa/comisiones", label: "Comisiones" },
+        { href: "/empresa/facturas", label: "Facturas" },
         { href: "/empresa/perfil", label: "Perfil" },
       ]}>
       {children}

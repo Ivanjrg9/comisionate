@@ -100,3 +100,31 @@ export async function saleReportPdf(d: ReportData) {
   pdf.paragraph("Informe generado por ComisionaTe a partir de los registros de la plataforma. ComisionaTe es un intermediario y no es parte de la venta al cliente final.", 9, true);
   return pdf.bytes();
 }
+
+export type PlatformInvoiceData = {
+  number: string; period: string; issuedAt: string; dueAt: string; totalCents: number;
+  company: { legal_name: string; cif: string; billing_address: string };
+  lines: { customer: string; type: "lead" | "venta"; commissionCents: number; percent: number; feeCents: number }[];
+  platformIban: string | null;
+};
+
+/** Factura mensual de ComisionaTe a la empresa: tarifa sobre las comisiones validadas del mes. */
+export async function platformInvoicePdf(d: PlatformInvoiceData) {
+  const pdf = await PdfBuilder.create(`Factura ${d.number}`);
+  const month = new Date(d.period).toLocaleDateString("es-ES", { month: "long", year: "numeric" });
+  pdf.row("Periodo", month);
+  pdf.row("Fecha de emisión", date(d.issuedAt));
+  pdf.row("Vencimiento", date(d.dueAt));
+  pdf.subheading("Cliente");
+  pdf.row("Razón social", d.company.legal_name);
+  pdf.row("CIF", d.company.cif);
+  pdf.row("Domicilio", d.company.billing_address);
+  pdf.subheading("Detalle: tarifa de ComisionaTe sobre comisiones validadas");
+  for (const l of d.lines)
+    pdf.row(`${l.type === "lead" ? "Lead" : "Venta"} - ${l.customer}`, `${euros(l.commissionCents)} x ${l.percent} % = ${euros(l.feeCents)}`);
+  pdf.spacer(8);
+  pdf.row("Total a pagar", euros(d.totalCents));
+  pdf.paragraph("Importe sin IVA. Pago por transferencia en un máximo de 15 días desde la emisión.", 9, true);
+  if (d.platformIban) pdf.row("IBAN de ComisionaTe", d.platformIban);
+  return pdf.bytes();
+}

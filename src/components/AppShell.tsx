@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { secondaryButtonClass } from "@/components/form";
+import { NotificationBell } from "@/components/NotificationBell";
 
 export function AppShell({
   name,
@@ -26,6 +27,7 @@ export function AppShell({
             ))}
           </nav>
           <div className="ml-auto flex items-center gap-3 text-sm">
+            <NotificationBell />
             <span className="hidden sm:inline">
               {name} · <span className="text-muted">{roleLabel}</span>
             </span>
