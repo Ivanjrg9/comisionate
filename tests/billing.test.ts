@@ -157,14 +157,15 @@ describe("factura de ComisionaTe sin pagar", () => {
   });
 
   it("a los 25 días oculta ofertas e impide validar ventas nuevas", async () => {
+    // El cliente ya estaba registrado (oferta activa) cuando llega el bloqueo.
+    const com = await loginAs("comercial5@comisionate.test");
+    const lead = (await registerLead(com, await membershipOf(com, "Kit solar Madrid"))).lead_id!;
+
     await age(26);
     await db.rpc("process_overdue");
     expect(await state()).toMatchObject({ inv: { dunning_stage: 2 }, co: "verificada", hidden: true });
 
     const empresa = await loginAs("empresa2@comisionate.test");
-    const com = await loginAs("comercial5@comisionate.test");
-    await db.from("offers").update({ status: "activa" }).eq("company_id", company).eq("title", "Kit solar Madrid");
-    const lead = (await registerLead(com, await membershipOf(com, "Kit solar Madrid"))).lead_id!;
     const res = await empresa.rpc("set_lead_status", { p_lead: lead, p_to: "lead_cualificado" });
     expect(res.error?.message).toMatch(/factura de ComisionaTe vencida/);
     await db.from("leads").update({ status: "rechazado", reject_reason: "otro" }).eq("id", lead);

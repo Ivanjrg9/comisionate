@@ -76,3 +76,13 @@ begin
 end $$;
 create trigger leads_guard_insert before insert on leads
   for each row execute function guard_lead_insert();
+
+-- Corrección: primero se reactiva la cuenta y después las ofertas (la guarda de ofertas exige empresa verificada).
+create or replace function restore_company_if_clean(p_company uuid) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if company_in_default(p_company) then return; end if;
+  update companies set status = 'verificada', suspension_reason = null
+   where id = p_company and status = 'suspendida' and suspension_reason = 'impago';
+  update offers set status = 'activa' where company_id = p_company and status = 'oculta';
+end $$;
