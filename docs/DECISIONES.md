@@ -13,3 +13,5 @@
 | 9 | Comisión **por lead en %**: se calcula sobre el precio orientativo del producto (obligatorio rellenarlo) | La spec admite % en ambas, pero en la fase de lead aún no hay importe de venta. Comisión por venta en %: sobre el importe real de la venta. |
 | 10 | `useServerForm` (onSubmit + startTransition) en vez de `<form action>` | React 19 vacía los campos tras un error de validación con `action`. |
 | 11 | Filtro «comisión mínima» sobre una estimación (lead + venta sobre el precio orientativo) | Permite filtrar y ordenar ofertas mezclando comisiones fijas y porcentuales. |
+| 12 | PDFs con `pdf-lib` y fuentes estándar (Helvetica, WinAnsi): los caracteres no soportados salen como «?» | Evita embeber fuentes (peso y licencias); cubre español y €. |
+| 13 | Justificante solo para comerciales «particular»; los autónomos suben su propia factura | Es lo que pide la spec (sección 4). |

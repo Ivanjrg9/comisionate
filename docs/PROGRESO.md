@@ -3,6 +3,19 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Fase 4 — TERMINADA
+- Pagos: la empresa marca «pagada» (muestra IBAN mientras hay pago pendiente) y el comercial confirma «recibido» o
+  «no recibido» (la empresa puede volver a marcarlo). Al cobrarse todo, el lead pasa a «Pagada».
+- Autónomos: desglose orientativo (comisión + IVA 21 % − IRPF 15 %/7 %), subida de factura PDF (Storage `invoices`,
+  una por comisión) y descarga por la empresa de esa comisión (RLS verificada: otra empresa no accede).
+- Particulares: justificante de pago PDF generado en servidor (`/api/comisiones/[id]/justificante`) y aviso informativo
+  del gestor; aviso destacado al superar 5 comisiones en el año natural.
+- Informe PDF de cada venta (`/api/leads/[id]/informe`): datos, historial, comisiones y condiciones aceptadas.
+- Dashboards: comercial (pendientes / confirmadas / cobradas, clientes por estado, pagos por confirmar) y empresa
+  (leads por estado, conversión, comisiones por pagar/pagadas, ranking de comerciales, alertas de plazos).
+- Librería nueva (exigida por la spec): `pdf-lib`. Tests: 38+ (fiscal, PDFs, pagos, facturas con RLS).
+- Pendiente: la tarifa del 10 % solo se muestra; la factura mensual de ComisionaTe llega en la Fase 5.
+
 ## Fase 3 — TERMINADA
 - Comercial: registrar cliente desde el móvil (consentimiento obligatorio, teléfono normalizado), lista con filtros
   por estado, detalle con siguiente paso, comisiones e historial; acceso rápido «Registrar cliente» desde cada código.

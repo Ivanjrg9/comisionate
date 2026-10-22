@@ -11,3 +11,6 @@ export type AmountKind = "fija" | "porcentaje";
 export function amountLabel(kind: AmountKind, value: number) {
   return kind === "fija" ? euros(value) : `${(value / 100).toLocaleString("es-ES")} %`;
 }
+
+export const daysSince = (iso: string) => Math.floor((Date.now() - new Date(iso).getTime()) / 864e5);
+export const isPast = (iso: string) => new Date(iso).getTime() < Date.now();

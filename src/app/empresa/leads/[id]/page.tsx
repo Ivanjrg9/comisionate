@@ -76,6 +76,10 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
         <LeadActions leadId={lead.id} status={lead.status} />
       </section>
 
+      <p>
+        <a href={`/api/leads/${lead.id}/informe`} className="font-semibold text-primary underline">Descargar informe de esta venta (PDF)</a>
+      </p>
+
       <section aria-labelledby="historial">
         <h2 id="historial" className="mb-3 text-lg font-bold">Historial</h2>
         <Timeline events={events ?? []} />

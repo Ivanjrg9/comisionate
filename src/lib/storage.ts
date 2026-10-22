@@ -5,7 +5,7 @@ const MAX_BYTES = 5 * 1024 * 1024;
 /** Sube un archivo a <bucket>/<uid>/<nombre>. Devuelve la ruta o un mensaje de error. */
 export async function uploadFile(
   supabase: SupabaseClient,
-  bucket: "logos" | "photos" | "materials",
+  bucket: "logos" | "photos" | "materials" | "invoices",
   uid: string,
   file: File,
   allowed: string[],
