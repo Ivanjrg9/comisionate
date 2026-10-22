@@ -7,6 +7,7 @@ export default async function EmpresaLayout({ children }: LayoutProps<"/empresa"
     <AppShell name={profile.full_name} roleLabel="Empresa" nav={[
         { href: "/empresa", label: "Resumen" },
         { href: "/empresa/ofertas", label: "Ofertas" },
+        { href: "/empresa/leads", label: "Leads y ventas" },
         { href: "/empresa/perfil", label: "Perfil" },
       ]}>
       {children}

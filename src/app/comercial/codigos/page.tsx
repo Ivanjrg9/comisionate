@@ -33,6 +33,9 @@ export default async function CodesPage() {
                   <div className="mt-3 flex flex-wrap items-center gap-3">
                     <code className="rounded-lg bg-surface px-3 py-2 text-lg font-bold tracking-wide">{m.referral_code}</code>
                     <CopyButton text={m.referral_code} />
+                    <Link href={`/comercial/leads/nuevo?codigo=${m.id}`} className="inline-flex min-h-10 items-center rounded-lg bg-primary px-4 font-semibold text-primary-foreground">
+                      Registrar cliente
+                    </Link>
                     <a href={`https://wa.me/?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer"
                        className="inline-flex min-h-10 items-center rounded-lg bg-[#25D366] px-4 font-semibold text-neutral-900">
                       Compartir por WhatsApp

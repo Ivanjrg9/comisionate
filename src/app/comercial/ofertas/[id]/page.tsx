@@ -47,13 +47,13 @@ export default async function OfferDetailPage({ params, searchParams }: PageProp
       <section aria-labelledby="condiciones" className="space-y-3 rounded-xl border border-border bg-surface p-4">
         <h2 id="condiciones" className="text-lg font-bold">Condiciones</h2>
         <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-[auto_1fr]">
-          {offer.lead_kind && (<><dt className="font-medium">Comisión por lead</dt><dd>{amountLabel(offer.lead_kind, offer.lead_value!)} cuando se realiza la visita técnica. Se paga en 15 días.</dd></>)}
-          {offer.sale_kind && (<><dt className="font-medium">Comisión por venta</dt><dd>{amountLabel(offer.sale_kind, offer.sale_value!)} cuando el cliente firma. Tras 14 días de cancelación es firme y se paga en 15 días más.</dd></>)}
-          {offer.product_price_cents != null && (<><dt className="font-medium">Precio orientativo</dt><dd>{euros(offer.product_price_cents)}</dd></>)}
-          <dt className="font-medium">Zona</dt><dd>{offer.zones.length ? offer.zones.join(", ") : "Toda España"}</dd>
-          {offer.requirements && (<><dt className="font-medium">Requisitos</dt><dd>{offer.requirements}</dd></>)}
-          <dt className="font-medium">Quién puede unirse</dt><dd>{offer.only_autonomos ? "Solo autónomos" : "Autónomos y particulares"}</dd>
-          <dt className="font-medium">Acceso</dt><dd>{offer.access === "abierto" ? "Inmediato" : "La empresa aprueba cada solicitud"}</dd>
+          {offer.lead_kind && (<><dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Comisión por lead</dt><dd className="mb-2 sm:mb-0">{amountLabel(offer.lead_kind, offer.lead_value!)} cuando se realiza la visita técnica. Se paga en 15 días.</dd></>)}
+          {offer.sale_kind && (<><dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Comisión por venta</dt><dd className="mb-2 sm:mb-0">{amountLabel(offer.sale_kind, offer.sale_value!)} cuando el cliente firma. Tras 14 días de cancelación es firme y se paga en 15 días más.</dd></>)}
+          {offer.product_price_cents != null && (<><dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Precio orientativo</dt><dd className="mb-2 sm:mb-0">{euros(offer.product_price_cents)}</dd></>)}
+          <dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Zona</dt><dd className="mb-2 sm:mb-0">{offer.zones.length ? offer.zones.join(", ") : "Toda España"}</dd>
+          {offer.requirements && (<><dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Requisitos</dt><dd className="mb-2 sm:mb-0">{offer.requirements}</dd></>)}
+          <dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Quién puede unirse</dt><dd className="mb-2 sm:mb-0">{offer.only_autonomos ? "Solo autónomos" : "Autónomos y particulares"}</dd>
+          <dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Acceso</dt><dd className="mb-2 sm:mb-0">{offer.access === "abierto" ? "Inmediato" : "La empresa aprueba cada solicitud"}</dd>
         </dl>
         <p className="text-sm text-muted">Cobras la comisión íntegra: ComisionaTe nunca te descuenta nada. La empresa te paga directamente.</p>
         <details className="text-sm">

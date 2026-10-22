@@ -145,3 +145,23 @@ describe("cliente reservado (90 días)", () => {
     expect(error?.message).toMatch(/consentimiento/);
   });
 });
+
+describe("rechazos y estados finales", () => {
+  it("«otro» exige explicación y un rechazado ya no cambia de estado", async () => {
+    const id = (await registerLead(com5, await membershipOf(com5, KIT))).lead_id!;
+    const noNote = await empresa2.rpc("set_lead_status", { p_lead: id, p_to: "rechazado", p_reason: "otro" });
+    expect(noNote.error?.message).toMatch(/Explica/);
+    expect((await empresa2.rpc("set_lead_status", { p_lead: id, p_to: "rechazado", p_reason: "otro", p_note: "No contesta" })).error).toBeNull();
+    for (const to of ["lead_cualificado", "venta", "cancelada"]) {
+      expect((await empresa2.rpc("set_lead_status", { p_lead: id, p_to: to, p_amount: 1 })).error?.message).toMatch(/Transición no permitida/);
+    }
+    const { data } = await com5.from("lead_events").select("to_status, reason").eq("lead_id", id).order("id");
+    expect(data!.at(-1)).toEqual({ to_status: "rechazado", reason: "otro: No contesta" });
+  });
+
+  it("solo se puede cancelar durante el periodo de cancelación", async () => {
+    const id = (await registerLead(com5, await membershipOf(com5, KIT))).lead_id!;
+    await empresa2.rpc("set_lead_status", { p_lead: id, p_to: "lead_cualificado" });
+    expect((await empresa2.rpc("set_lead_status", { p_lead: id, p_to: "cancelada" })).error?.message).toMatch(/Transición no permitida/);
+  });
+});

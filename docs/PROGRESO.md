@@ -3,6 +3,17 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Fase 3 — TERMINADA
+- Comercial: registrar cliente desde el móvil (consentimiento obligatorio, teléfono normalizado), lista con filtros
+  por estado, detalle con siguiente paso, comisiones e historial; acceso rápido «Registrar cliente» desde cada código.
+- Cliente reservado (90 días): se bloquea al segundo comercial con aviso sin revelar datos; los rechazados liberan el cliente.
+- Empresa: panel de leads con filtros por estado y acción rápida «Cualificar»; detalle con datos del cliente,
+  acciones según estado (cualificar, rechazar con motivo, marcar venta con importe, cancelar en periodo de desistimiento),
+  comisiones y tarifa de ComisionaTe, e historial. Aviso de «sin respuesta» a partir de 10 días.
+- Tests: 31 en total. Revisado con Playwright en 375 y 1280 px.
+- Pendiente de esta parte: los avisos automáticos de 15 días y el paso a revisión del admin (Fase 5, cron);
+  el botón de disputa (Fase 6).
+
 ## Fase 2 — TERMINADA
 - Storage: buckets `logos`, `photos` (públicos), `materials`, `invoices` (privados); políticas por carpeta `<uid>/`.
 - Empresa: perfil (con logo), ofertas (crear/editar/pausar/publicar; comisión por lead y/o venta, fija o %),

@@ -7,6 +7,7 @@ export default async function ComercialLayout({ children }: LayoutProps<"/comerc
     <AppShell name={profile.full_name} roleLabel="Comercial" nav={[
         { href: "/comercial", label: "Resumen" },
         { href: "/comercial/ofertas", label: "Ofertas" },
+        { href: "/comercial/leads", label: "Mis clientes" },
         { href: "/comercial/codigos", label: "Mis códigos" },
         { href: "/comercial/perfil", label: "Perfil" },
       ]}>
