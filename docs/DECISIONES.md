@@ -26,3 +26,7 @@
 | 22 | La valoración se hace solo por función SQL (`submit_review`), sin insert directo | Evita que alguien elija el destinatario o valore sin comisión pagada. |
 | 23 | Baja de empresa: cierre automático a los 90 días si todo está pagado; los clientes registrados siguen contando ese tiempo | Cumple «90 días siguientes» de la spec sin dejar la cuenta abierta indefinidamente. |
 | 24 | Anonimización: perfil, NIF, IBAN, foto, datos del cliente final y acceso; se conservan CIF/razón social de la empresa, ventas, pagos y facturas | Obligación de conservar registros 6 años. Los datos fiscales de una empresa no son datos personales del responsable. |
+| 25 | Landing con «ticket de comisión» como pieza central; verde bosque `#14532d` para bloques rellenos | El verde de marca `#16A34A` con texto blanco no llega a contraste AA (3,3:1); el verde bosque sí (≈9:1). |
+| 26 | Sin banner de cookies | Solo se usan cookies técnicas de sesión (exentas de consentimiento). Si se añade analítica habrá que añadir banner y actualizar la política. |
+| 27 | Textos legales con aviso visible «plantilla pendiente de revisión» mientras `LEGAL.draft` sea true | La spec pide plantillas a revisar por un profesional; evita publicarlas por descuido. |
+| 28 | Páginas públicas estáticas (sin leer la sesión en la cabecera) | Rendimiento y caché en Vercel; la cabecera pública no cambia según el usuario. |

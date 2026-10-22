@@ -3,6 +3,19 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Fase 7 — TERMINADA
+- Landing (`/`): hero con «ticket de comisión» (500 € al comercial + 50 € de tarifa = 550 € que paga la empresa), pasos,
+  bloques para comerciales y empresas, calculadora de ganancias, FAQ y llamada a la acción. Modo claro y oscuro.
+- `/como-funciona` (ciclo de vida con plazos, flujo del dinero, impuestos, protecciones, escalado de impagos) y
+  `/preguntas-frecuentes` (10 preguntas, con datos estructurados FAQPage).
+- Legales (plantillas): aviso legal, política de privacidad (RGPD), política de cookies (solo técnicas: sin banner),
+  términos para empresas y términos para comerciales, con las secciones 2-8 de la spec.
+- SEO y calidad: metadatos por página, sitemap, robots (bloquea paneles y API), icono, 404 y error en español,
+  «saltar al contenido», sin desbordes a 375 px, estáticas.
+- Tests: 71. Un test verifica que los plazos/tarifa publicados coinciden con `app_settings`.
+- **Antes de publicar:** rellenar los datos del titular (`NEXT_PUBLIC_LEGAL_*`) y poner `LEGAL.draft = false` en
+  `src/lib/content/site.ts` cuando un profesional haya revisado los textos.
+
 ## Fase 6 — TERMINADA
 - Panel de admin (`/admin`): resumen con métricas globales y cola de pendientes; empresas (verificar, suspender, expulsar,
   reactivar, fundadora, tarifa propia, impagos); comerciales (suspender/expulsar/reactivar); ofertas; leads (con filtro
