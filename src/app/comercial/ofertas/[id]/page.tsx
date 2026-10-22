@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server";
 import { amountLabel, euros } from "@/lib/format";
 import { Checkbox, buttonClass } from "@/components/form";
 import { joinOffer } from "../../actions";
+import { Badges, Rating, type CompanyStats } from "@/components/Badges";
+import { ReportForm } from "@/components/TrustWidgets";
 
 export const metadata: Metadata = { title: "Detalle de la oferta" };
 
@@ -21,7 +23,7 @@ export default async function OfferDetailPage({ params, searchParams }: PageProp
   const supabase = await createClient();
   const { data: offer } = await supabase
     .from("offers")
-    .select("*, companies!inner(legal_name, description, website, zone)")
+    .select("*, companies!inner(id, owner_id, legal_name, description, website, zone)")
     .eq("id", id)
     .single();
   if (!offer || offer.status !== "activa") notFound();
@@ -33,13 +35,16 @@ export default async function OfferDetailPage({ params, searchParams }: PageProp
   const links = await Promise.all((materials ?? []).map(async (m) => ({
     ...m, url: (await supabase.storage.from("materials").createSignedUrl(m.path, 3600)).data?.signedUrl,
   })));
-  const company = offer.companies as unknown as { legal_name: string; description: string; website: string | null; zone: string };
+  const company = offer.companies as unknown as { id: string; owner_id: string; legal_name: string; description: string; website: string | null; zone: string };
+  const { data: statRows } = await supabase.rpc("company_public_stats", { p_companies: [company.id] });
+  const stats = (statRows?.[0] ?? null) as CompanyStats | null;
   const errorText = error === "acepta" ? "Debes aceptar las condiciones para unirte." : error;
 
   return (
     <article className="max-w-2xl space-y-6">
       <header>
         <p className="text-sm text-muted">{company.legal_name}</p>
+        {stats && <div className="mt-1 flex flex-wrap items-center gap-2"><Badges stats={stats} /><Rating rating={stats.rating === null ? null : Number(stats.rating)} reviews={stats.reviews} /></div>}
         <h1 className="text-2xl font-bold">{offer.title}</h1>
       </header>
       <p className="whitespace-pre-line">{offer.description}</p>
@@ -88,6 +93,7 @@ export default async function OfferDetailPage({ params, searchParams }: PageProp
           <button className={buttonClass}>Unirme y obtener mi código</button>
         </form>
       )}
+    <ReportForm targetProfileId={company.owner_id} label="Reportar a esta empresa" />
     </article>
   );
 }

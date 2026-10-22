@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { Timeline } from "@/components/Timeline";
 import { readableReason } from "@/lib/lead-status";
 import { LeadActions } from "../LeadActions";
+import { ReportForm } from "@/components/TrustWidgets";
 
 export const metadata: Metadata = { title: "Detalle del lead" };
 
@@ -19,9 +20,10 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
     .eq("id", id)
     .single();
   if (!lead) notFound();
-  const [{ data: events }, { data: commissions }] = await Promise.all([
+  const [{ data: events }, { data: commissions }, { data: dispute }] = await Promise.all([
     supabase.from("lead_events").select("id, to_status, reason, created_at").eq("lead_id", id).order("id"),
     supabase.from("commissions").select("id, type, amount_cents, fee_cents, status, due_at").eq("lead_id", id).order("type"),
+    supabase.from("disputes").select("status, explanation, resolution").eq("lead_id", id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
   ]);
   const offer = lead.offers as unknown as { title: string };
   const sp = lead.salespeople as unknown as { fiscal: string; profiles: { full_name: string } };
@@ -71,6 +73,15 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
         </section>
       )}
 
+      {dispute && (
+        <section aria-labelledby="disputa" className="space-y-1 rounded-xl border border-accent bg-accent/20 p-4">
+          <h2 id="disputa" className="text-lg font-bold">Disputa del comercial</h2>
+          <p className="text-sm"><strong>Estado:</strong> {dispute.status === "abierta" ? "abierta, la revisa ComisionaTe" : dispute.status === "resuelta_comercial" ? "resuelta a favor del comercial" : "resuelta a favor de la empresa"}</p>
+          <blockquote className="border-l-4 border-border pl-3 text-sm">{dispute.explanation}</blockquote>
+          {dispute.resolution && <p className="text-sm"><strong>Decisión:</strong> {dispute.resolution}</p>}
+        </section>
+      )}
+
       <section aria-labelledby="acciones" className="space-y-4 rounded-xl border border-border bg-surface p-4">
         <h2 id="acciones" className="text-lg font-bold">Acciones</h2>
         <LeadActions leadId={lead.id} status={lead.status} />
@@ -84,6 +95,7 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
         <h2 id="historial" className="mb-3 text-lg font-bold">Historial</h2>
         <Timeline events={events ?? []} />
       </section>
+      <ReportForm leadId={lead.id} label="Reportar un problema con este comercial o venta" />
     </div>
   );
 }

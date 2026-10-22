@@ -61,7 +61,7 @@ describe("RLS", () => {
   it("nadie se puede cambiar el rol ni el estado de su cuenta", async () => {
     const uid = (await com1.auth.getUser()).data.user!.id;
     const { error } = await com1.from("profiles").update({ role: "admin" }).eq("id", uid);
-    expect(error?.message).toMatch(/rol/);
+    expect(error?.message).toMatch(/No puedes cambiar/);
     expect((await empresa1.from("companies").update({ founder_until: "2099-01-01" }).eq("owner_id", (await empresa1.auth.getUser()).data.user!.id)).error).not.toBeNull();
   });
 

@@ -3,6 +3,22 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Fase 6 — TERMINADA
+- Panel de admin (`/admin`): resumen con métricas globales y cola de pendientes; empresas (verificar, suspender, expulsar,
+  reactivar, fundadora, tarifa propia, impagos); comerciales (suspender/expulsar/reactivar); ofertas; leads (con filtro
+  «requieren revisión») y su detalle; disputas; reportes; facturas (marcar pagada → reactiva la cuenta); ajustes (tarifa global).
+- Disputas: el comercial la abre en un lead rechazado/cancelado (una abierta por lead); el admin resuelve; a favor del
+  comercial el lead vuelve a «registrado» o la venta recupera su comisión; a favor de la empresa se cierra. Avisos a ambas partes.
+- Reportes: botón «Reportar» en ventas, ofertas (empresa) y comerciales de una oferta → admin: abierto → en revisión →
+  resuelto con sanción (aviso / suspensión / expulsión). Suspender oculta ofertas; expulsar las cierra.
+- Valoraciones 1-5 + comentario tras una comisión cobrada (una por parte; el destinatario lo fija el servidor).
+  Insignias: empresa verificada, fundadora, buen pagador (0 retrasos y alguna comisión cobrada) + nota media en marketplace.
+- Bajas: comercial (códigos desactivados; la cuenta se cierra al no quedar nada pendiente) y empresa (solo con todo pagado;
+  ofertas cerradas, avisa a sus comerciales, cierre a los 90 días). Anonimización RGPD (perfil, IBAN, NIF, datos del cliente final,
+  acceso bloqueado) conservando ventas, pagos y facturas. Tarea diaria `finalize-leaves`.
+- Tests: 69 en total (admin, disputas, sanciones, valoraciones, insignias, bajas). Revisado con Playwright.
+- Limitación conocida: una empresa expulsada ya no puede entrar a marcar pagos; esos casos los gestiona el admin.
+
 ## Fase 5 — TERMINADA
 - Facturación mensual (`generate_monthly_invoices`, pg_cron día 1 a las 04:00): suma las tarifas de las comisiones firmes
   no facturadas por empresa; numeración `CT-AAAAMM-NNNN`; vence a los 15 días; idempotente; las fundadoras (0 %) no reciben.

@@ -6,6 +6,8 @@ import { dateEs } from "@/lib/format";
 import { secondaryButtonClass } from "@/components/form";
 import { OfferForm } from "../OfferForm";
 import { MaterialUpload } from "./MaterialUpload";
+import { Rating } from "@/components/Badges";
+import { ReportForm } from "@/components/TrustWidgets";
 import { deleteMaterial, setMembershipStatus } from "../../actions";
 
 export const metadata: Metadata = { title: "Editar oferta" };
@@ -21,11 +23,17 @@ export default async function EditOfferPage({ params }: PageProps<"/empresa/ofer
     supabase.from("offer_materials").select("id, name, path").eq("offer_id", id).order("created_at"),
     supabase
       .from("memberships")
-      .select("id, status, referral_code, accepted_at, salespeople(fiscal, zone, profiles(full_name))")
+      .select("id, status, referral_code, accepted_at, salesperson_id, salespeople(fiscal, zone, profiles(full_name))")
       .eq("offer_id", id)
       .order("created_at"),
   ]);
   if (membersError) throw new Error(membersError.message);
+  const memberIds = (members ?? []).map((m) => m.salesperson_id);
+  const { data: reviewRows } = memberIds.length ? await supabase.from("reviews").select("target_id, stars").in("target_id", memberIds) : { data: [] };
+  const rating = (id: string) => {
+    const rows = (reviewRows ?? []).filter((r) => r.target_id === id);
+    return { avg: rows.length ? Math.round((rows.reduce((n, r) => n + r.stars, 0) / rows.length) * 10) / 10 : null, n: rows.length };
+  };
   const links = await Promise.all((materials ?? []).map(async (m) => ({
     ...m, url: (await supabase.storage.from("materials").createSignedUrl(m.path, 3600)).data?.signedUrl,
   })));
@@ -69,11 +77,12 @@ export default async function EditOfferPage({ params }: PageProps<"/empresa/ofer
               return (
                 <li key={m.id} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border p-3">
                   <div>
-                    <p className="font-medium">{profile?.full_name}</p>
+                    <p className="font-medium">{profile?.full_name} <Rating rating={rating(m.salesperson_id).avg} reviews={rating(m.salesperson_id).n} /></p>
                     <p className="text-sm text-muted">
                       {sp?.fiscal === "autonomo" ? "Autónomo" : "Particular"}{sp?.zone && ` · ${sp.zone}`} · {m.referral_code} · {dateEs(m.accepted_at)} · {m.status}
                     </p>
                   </div>
+                  <ReportForm targetProfileId={m.salesperson_id} label="Reportar" />
                   {m.status === "pendiente" && (
                     <form action={setMembershipStatus} className="flex gap-2">
                       <input type="hidden" name="id" value={m.id} />

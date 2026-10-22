@@ -5,13 +5,23 @@ import { LoginForm } from "./LoginForm";
 export const metadata: Metadata = { title: "Entrar" };
 
 export default async function LoginPage({ searchParams }: PageProps<"/login">) {
-  const { next, aviso } = await searchParams;
+  const { next, aviso, error } = await searchParams;
   return (
     <>
       <h1 className="mb-4 text-2xl font-bold">Entrar en ComisionaTe</h1>
       {aviso === "confirma-email" && (
         <p role="status" className="mb-4 rounded-lg bg-accent/30 p-3 text-sm">
           Te hemos enviado un email. Confírmalo para poder entrar.
+        </p>
+      )}
+      {error === "cuenta" && (
+        <p role="alert" className="mb-4 rounded-lg bg-danger/10 p-3 text-sm text-danger">
+          Tu cuenta no está activa (suspendida, expulsada o cerrada). Si crees que es un error, escríbenos.
+        </p>
+      )}
+      {aviso === "baja" && (
+        <p role="status" className="mb-4 rounded-lg bg-accent/30 p-3 text-sm">
+          Tu cuenta se ha cerrado y tus datos personales se han anonimizado. Gracias por haber formado parte de ComisionaTe.
         </p>
       )}
       <LoginForm next={typeof next === "string" ? next : undefined} />

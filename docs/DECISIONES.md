@@ -21,3 +21,8 @@
 | 17 | La factura mensual agrupa comisiones **firmes y no facturadas hasta fin de mes** (no solo las del mes) | Evita que se pierdan comisiones si un mes falla la tarea; el total siempre coincide con las líneas. |
 | 18 | Emails con Vercel Cron diario (`/api/cron/emails`) + Resend por `fetch` | Sin librería ni Edge Function; en plan Hobby el cron mínimo es diario. Con pg_net + URL pública se podría acercar a tiempo real. |
 | 19 | La factura PDF de ComisionaTe indica «importe sin IVA» | La spec no define el tratamiento del IVA de la tarifa del 10 %: **pregunta de negocio abierta** (ver resumen de la Fase 5). |
+| 20 | «Buen pagador» = 0 retrasos registrados **y** al menos una comisión cobrada; se calcula en SQL (`company_public_stats`) | La spec solo dice «0 retrasos»; exigir actividad evita dar la insignia a empresas nuevas sin historial. |
+| 21 | Insignia «fundadora» permanente (aunque venza la exención de 3 meses) | Es un reconocimiento de antigüedad; la tarifa sí depende de `founder_until`. |
+| 22 | La valoración se hace solo por función SQL (`submit_review`), sin insert directo | Evita que alguien elija el destinatario o valore sin comisión pagada. |
+| 23 | Baja de empresa: cierre automático a los 90 días si todo está pagado; los clientes registrados siguen contando ese tiempo | Cumple «90 días siguientes» de la spec sin dejar la cuenta abierta indefinidamente. |
+| 24 | Anonimización: perfil, NIF, IBAN, foto, datos del cliente final y acceso; se conservan CIF/razón social de la empresa, ventas, pagos y facturas | Obligación de conservar registros 6 años. Los datos fiscales de una empresa no son datos personales del responsable. |

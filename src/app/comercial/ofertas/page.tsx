@@ -8,6 +8,7 @@ import { estimatedCommissionCents } from "@/lib/domain/offers";
 import { Field, Select, buttonClass } from "@/components/form";
 import { Avatar } from "@/components/Avatar";
 import { publicUrl } from "@/lib/storage";
+import { Badges, Rating, type CompanyStats } from "@/components/Badges";
 
 export const metadata: Metadata = { title: "Ofertas" };
 
@@ -18,7 +19,7 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
 
   let query = supabase
     .from("offers")
-    .select("id, title, only_autonomos, product_price_cents, lead_kind, lead_value, sale_kind, sale_value, zones, companies!inner(legal_name, logo_path)")
+    .select("id, title, only_autonomos, product_price_cents, lead_kind, lead_value, sale_kind, sale_value, zones, companies!inner(id, legal_name, logo_path)")
     .eq("status", "activa")
     .order("created_at", { ascending: false });
   if (q.sector) query = query.eq("sector_id", Number(q.sector));
@@ -31,6 +32,10 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
     .map((o) => ({ ...o, est: estimatedCommissionCents(o) }))
     .filter((o) => o.est >= min)
     .sort((a, b) => b.est - a.est);
+
+  const companyIds = [...new Set(offers.map((o) => (o.companies as unknown as { id: string }).id))];
+  const { data: statRows } = companyIds.length ? await supabase.rpc("company_public_stats", { p_companies: companyIds }) : { data: [] };
+  const stats = new Map<string, CompanyStats>((statRows ?? []).map((r: CompanyStats & { company_id: string }) => [r.company_id, r]));
 
   return (
     <>
@@ -58,7 +63,8 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
       ) : (
         <ul className="grid gap-4 md:grid-cols-2">
           {offers.map((o) => {
-            const company = o.companies as unknown as { legal_name: string; logo_path: string | null };
+            const company = o.companies as unknown as { id: string; legal_name: string; logo_path: string | null };
+            const st = stats.get(company.id);
             return (
               <li key={o.id}>
                 <Link href={`/comercial/ofertas/${o.id}`} className="block h-full rounded-xl border border-border p-4 hover:bg-surface">
@@ -69,6 +75,7 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
                       <p className="text-sm text-muted">{company.legal_name}</p>
                     </div>
                   </div>
+                  {st && <div className="mt-3 space-y-1"><Badges stats={st} /><Rating rating={st.rating === null ? null : Number(st.rating)} reviews={st.reviews} /></div>}
                   <p className="mt-3 text-lg font-bold text-primary">
                     {o.est > 0 ? `Hasta ${euros(o.est)} por cliente` : "Comisión a consultar"}
                   </p>

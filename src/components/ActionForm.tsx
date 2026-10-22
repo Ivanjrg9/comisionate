@@ -27,7 +27,7 @@ export function ActionForm({
         <button type="submit" disabled={pending} className={`inline-flex min-h-11 items-center rounded-lg px-5 font-semibold disabled:opacity-60 ${toneClass}`}>
           {pending ? "Un momento…" : label}
         </button>
-        <FormMessage state={state} />
+        <FormMessage state={{ ok: state.ok, error: state.error ?? Object.values(state.fieldErrors ?? {})[0] }} />
       </div>
     </form>
   );

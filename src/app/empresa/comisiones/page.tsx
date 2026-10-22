@@ -6,6 +6,7 @@ import { Stat } from "@/components/Stat";
 import type { CommissionStatus } from "@/lib/commission-status";
 import { dateEs, euros, isPast } from "@/lib/format";
 import { MarkPaid } from "./MarkPaid";
+import { ReviewForm } from "@/components/TrustWidgets";
 
 export const metadata: Metadata = { title: "Comisiones" };
 
@@ -20,6 +21,9 @@ export default async function CompanyCommissionsPage() {
     .order("due_at", { ascending: true, nullsFirst: false });
   if (error) throw new Error(error.message);
   const all = commissions ?? [];
+  const { data: auth } = await supabase.auth.getUser();
+  const { data: myReviews } = await supabase.from("reviews").select("commission_id").eq("author_id", auth.user!.id);
+  const reviewed = new Set((myReviews ?? []).map((r) => r.commission_id));
 
   // IBAN: solo se muestra mientras haya algo pendiente con ese comercial (lo controla la base de datos).
   const toPay = [...new Set(all.filter((c) => OPEN.includes(c.status as CommissionStatus)).map((c) => c.salesperson_id))];
@@ -60,6 +64,7 @@ export default async function CompanyCommissionsPage() {
         {status === "no_recibida" && <p className="rounded-lg bg-danger/10 p-3 text-sm text-danger">El comercial indica que no ha recibido el pago. Revisa la transferencia y vuelve a marcarla.</p>}
         {due(c) && <MarkPaid commissionId={c.id} retry={status === "no_recibida"} />}
         {status === "pagada_empresa" && <p className="text-sm">Pagada. Esperando la confirmación del comercial.</p>}
+        {status === "recibida" && !reviewed.has(c.id) && <ReviewForm commissionId={c.id} whom="al comercial" />}
         <div className="flex flex-wrap gap-4 text-sm font-medium">
           {sp.fiscal === "autonomo" && hasInvoice && <a className="text-primary underline" href={`/api/comisiones/${c.id}/factura`}>Descargar factura del autónomo</a>}
           {sp.fiscal === "autonomo" && !hasInvoice && status !== "pendiente" && <span className="text-muted">Factura del autónomo: aún no subida</span>}

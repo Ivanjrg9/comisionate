@@ -7,19 +7,22 @@ import { bucket, type CommissionStatus } from "@/lib/commission-status";
 import { invoiceBreakdown, particularNotice } from "@/lib/domain/fiscal";
 import { dateEs, euros } from "@/lib/format";
 import { ConfirmPayment, InvoiceUpload } from "./PaymentActions";
+import { ReviewForm } from "@/components/TrustWidgets";
 
 export const metadata: Metadata = { title: "Mis comisiones" };
 
 export default async function SalespersonCommissionsPage() {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
-  const [{ data: sp }, { data: commissions, error }] = await Promise.all([
+  const [{ data: sp }, { data: commissions, error }, { data: myReviews }] = await Promise.all([
     supabase.from("salespeople").select("fiscal, new_autonomo").eq("id", auth.user!.id).single(),
     supabase
       .from("commissions")
       .select("id, type, amount_cents, status, due_at, created_at, leads(id, customer_name, offers(title)), salesperson_invoices(id)")
       .order("created_at", { ascending: false }),
+    supabase.from("reviews").select("commission_id").eq("author_id", auth.user!.id),
   ]);
+  const reviewed = new Set((myReviews ?? []).map((r) => r.commission_id));
   if (error) throw new Error(error.message);
 
   const totals = { pendiente: 0, confirmada: 0, cobrada: 0 };
@@ -87,6 +90,7 @@ export default async function SalespersonCommissionsPage() {
                     ) : <InvoiceUpload commissionId={c.id} />}
                   </div>
                 )}
+                {status === "recibida" && !reviewed.has(c.id) && <ReviewForm commissionId={c.id} whom="la empresa" />}
                 <div className="flex flex-wrap gap-4 text-sm font-medium">
                   {sp?.fiscal === "particular" && (status === "pagada_empresa" || status === "recibida") && (
                     <a className="text-primary underline" href={`/api/comisiones/${c.id}/justificante`}>Descargar justificante de pago (PDF)</a>

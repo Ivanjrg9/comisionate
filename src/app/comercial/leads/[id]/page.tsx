@@ -6,6 +6,7 @@ import { dateEs, euros } from "@/lib/format";
 import { readableReason } from "@/lib/lead-status";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Timeline } from "@/components/Timeline";
+import { DisputeForm, ReportForm } from "@/components/TrustWidgets";
 
 export const metadata: Metadata = { title: "Detalle del cliente" };
 
@@ -23,9 +24,10 @@ export default async function SalespersonLeadPage({ params, searchParams }: Page
   const supabase = await createClient();
   const { data: lead } = await supabase.from("leads").select("*, offers(title, companies(legal_name))").eq("id", id).single();
   if (!lead) notFound();
-  const [{ data: events }, { data: commissions }] = await Promise.all([
+  const [{ data: events }, { data: commissions }, { data: dispute }] = await Promise.all([
     supabase.from("lead_events").select("id, to_status, reason, created_at").eq("lead_id", id).order("id"),
     supabase.from("commissions").select("id, type, amount_cents, status, due_at").eq("lead_id", id).order("type"),
+    supabase.from("disputes").select("id, status, explanation, resolution").eq("lead_id", id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
   ]);
   const offer = lead.offers as unknown as { title: string; companies: { legal_name: string } };
 
@@ -44,7 +46,7 @@ export default async function SalespersonLeadPage({ params, searchParams }: Page
       {(lead.status === "rechazado" || lead.status === "cancelada") && (
         <p className="rounded-lg bg-danger/10 p-3 text-sm">
           {lead.reject_reason ? `Motivo: ${readableReason(lead.reject_reason + (lead.reject_note ? `: ${lead.reject_note}` : ""))}. ` : ""}
-          Si crees que no es correcto, podrás abrir una disputa (próximamente).
+         
         </p>
       )}
       <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-[auto_1fr]">
@@ -70,10 +72,21 @@ export default async function SalespersonLeadPage({ params, searchParams }: Page
         <a href={`/api/leads/${lead.id}/informe`} className="font-semibold text-primary underline">Descargar informe de esta venta (PDF)</a>
       </p>
 
+      {(lead.status === "rechazado" || lead.status === "cancelada" || dispute) && (
+        <section aria-labelledby="disputa">
+          <h2 id="disputa" className="sr-only">Disputa</h2>
+          {dispute?.status === "abierta" && <p role="status" className="rounded-lg bg-accent/30 p-3">Tu disputa está abierta: el equipo de ComisionaTe la está revisando.</p>}
+          {dispute && dispute.status !== "abierta" && (
+            <p className="rounded-lg bg-surface p-3"><strong>Disputa resuelta {dispute.status === "resuelta_comercial" ? "a tu favor" : "a favor de la empresa"}:</strong> {dispute.resolution}</p>
+          )}
+          {!dispute && <DisputeForm leadId={lead.id} />}
+        </section>
+      )}
       <section aria-labelledby="historial">
         <h2 id="historial" className="mb-3 text-lg font-bold">Historial</h2>
         <Timeline events={events ?? []} />
       </section>
+      <ReportForm leadId={lead.id} label="Reportar un problema con esta venta" />
     </div>
   );
 }
