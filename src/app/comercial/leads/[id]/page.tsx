@@ -33,11 +33,11 @@ export default async function SalespersonLeadPage({ params, searchParams }: Page
 
   return (
     <div className="max-w-2xl space-y-8">
-      <Link href="/comercial/leads" className="text-sm text-primary underline">← Mis clientes</Link>
+      <Link href="/comercial/leads" className="text-sm text-link underline underline-offset-4">← Mis clientes</Link>
       {nuevo && <p role="status" className="rounded-lg bg-primary/15 p-3 font-medium">Cliente registrado. La empresa ya ha recibido el aviso.</p>}
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">{lead.customer_name}</h1>
+          <h1 className="text-2xl font-semibold">{lead.customer_name}</h1>
           <p className="text-muted">{offer.title} · {offer.companies.legal_name}</p>
         </div>
         <StatusBadge status={lead.status} />
@@ -57,7 +57,7 @@ export default async function SalespersonLeadPage({ params, searchParams }: Page
       </dl>
       {!!commissions?.length && (
         <section aria-labelledby="comisiones">
-          <h2 id="comisiones" className="mb-2 text-lg font-bold">Tus comisiones</h2>
+          <h2 id="comisiones" className="mb-2 text-lg font-semibold">Tus comisiones</h2>
           <ul className="space-y-2">
             {commissions.map((c) => (
               <li key={c.id} className="rounded-lg border border-border p-3 text-sm">
@@ -69,13 +69,13 @@ export default async function SalespersonLeadPage({ params, searchParams }: Page
         </section>
       )}
       <p>
-        <a href={`/api/leads/${lead.id}/informe`} className="font-semibold text-primary underline">Descargar informe de esta venta (PDF)</a>
+        <a href={`/api/leads/${lead.id}/informe`} className="text-link underline underline-offset-4">Descargar informe de esta venta (PDF)</a>
       </p>
 
       {(lead.status === "rechazado" || lead.status === "cancelada" || dispute) && (
         <section aria-labelledby="disputa">
           <h2 id="disputa" className="sr-only">Disputa</h2>
-          {dispute?.status === "abierta" && <p role="status" className="rounded-lg bg-accent/30 p-3">Tu disputa está abierta: el equipo de ComisionaTe la está revisando.</p>}
+          {dispute?.status === "abierta" && <p role="status" className="rounded-xl border border-border-strong bg-surface p-3">Tu disputa está abierta: el equipo de ComisionaTe la está revisando.</p>}
           {dispute && dispute.status !== "abierta" && (
             <p className="rounded-lg bg-surface p-3"><strong>Disputa resuelta {dispute.status === "resuelta_comercial" ? "a tu favor" : "a favor de la empresa"}:</strong> {dispute.resolution}</p>
           )}
@@ -83,7 +83,7 @@ export default async function SalespersonLeadPage({ params, searchParams }: Page
         </section>
       )}
       <section aria-labelledby="historial">
-        <h2 id="historial" className="mb-3 text-lg font-bold">Historial</h2>
+        <h2 id="historial" className="mb-3 text-lg font-semibold">Historial</h2>
         <Timeline events={events ?? []} />
       </section>
       <ReportForm leadId={lead.id} label="Reportar un problema con esta venta" />

@@ -28,10 +28,10 @@ export default async function AdminLeadPage({ params }: PageProps<"/admin/leads/
   const sp = l.salespeople as unknown as { profiles: { full_name: string } };
   return (
     <div className="max-w-2xl space-y-8">
-      <Link href="/admin/leads" className="text-sm text-primary underline">← Leads</Link>
+      <Link href="/admin/leads" className="text-sm text-link underline underline-offset-4">← Leads</Link>
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">{l.customer_name}</h1>
+          <h1 className="text-2xl font-semibold">{l.customer_name}</h1>
           <p className="text-muted">{o.title} · <Link className="underline" href={`/admin/empresas/${o.companies.id}`}>{o.companies.legal_name}</Link> · {sp.profiles.full_name}</p>
         </div>
         <StatusBadge status={l.status} />
@@ -44,8 +44,8 @@ export default async function AdminLeadPage({ params }: PageProps<"/admin/leads/
       {!!commissions?.length && (
         <ul className="space-y-2">{commissions.map((c) => <li key={c.id} className="flex items-center justify-between rounded-lg border border-border p-3 text-sm"><span>{c.type === "lead" ? "Por lead" : "Por venta"} · {euros(c.amount_cents)}</span><CommissionBadge status={c.status as CommissionStatus} /></li>)}</ul>
       )}
-      {!!disputes?.length && <p className="text-sm"><Link href="/admin/disputas" className="font-semibold text-primary underline">Ver disputa</Link> ({disputes[0].status})</p>}
-      <section><h2 className="mb-3 text-lg font-bold">Historial</h2><Timeline events={events ?? []} /></section>
+      {!!disputes?.length && <p className="text-sm"><Link href="/admin/disputas" className="text-link underline underline-offset-4">Ver disputa</Link> ({disputes[0].status})</p>}
+      <section><h2 className="mb-3 text-lg font-semibold">Historial</h2><Timeline events={events ?? []} /></section>
     </div>
   );
 }

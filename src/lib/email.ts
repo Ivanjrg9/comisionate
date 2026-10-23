@@ -4,9 +4,9 @@ const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", 
 
 export function renderEmail(title: string, body: string, url: string | null) {
   const site = process.env.NEXT_PUBLIC_SITE_URL ?? "https://comisionate.com";
-  const button = url ? `<p><a href="${site}${url}" style="background:#16a34a;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:600">Abrir en ComisionaTe</a></p>` : "";
+  const button = url ? `<p><a href="${site}${url}" style="background:#171717;color:#fafafa;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:600">Abrir en ComisionaTe</a></p>` : "";
   return `<div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;color:#14181f">
-<p style="font-size:20px;font-weight:800">Comisiona<span style="background:#facc15;padding:0 4px;border-radius:4px">Te</span></p>
+<p style="font-size:20px;font-weight:800">Comisiona<span style="color:#d98a00">Te</span></p>
 <h2>${escapeHtml(title)}</h2><p>${escapeHtml(body)}</p>${button}
 <p style="color:#5b6472;font-size:12px">Recibes este aviso porque tienes una cuenta en ComisionaTe.</p></div>`;
 }

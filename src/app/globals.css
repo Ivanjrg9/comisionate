@@ -1,58 +1,113 @@
 @import "tailwindcss";
 
+/*
+ * Sistema de diseño «Graphite» (ver ~/Downloads/DESIGN.md): tema oscuro, lienzo casi negro,
+ * bordes finos, tipografía blanca precisa y color solo como señal puntual.
+ * Los nombres semánticos de siempre (background, border, primary…) apuntan ahora a estos valores.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #14181f;
-  --muted: #5b6472;
-  --surface: #f5f7f6;
-  --border: #dfe4e1;
-  --primary: #15803d; /* verde de marca oscurecido para contraste AA con texto blanco (el #16a34a daba 3,3:1) */
-  --primary-foreground: #ffffff;
-  --accent: #facc15;
-  --danger: #b91c1c;
-  --forest: #14532d;
-  --on-tint: #14532d; /* texto sobre fondos verdes tintados (etiquetas) */
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0e1411;
-    --foreground: #eef2ef;
-    --muted: #9aa5a0;
-    --surface: #161e19;
-    --border: #28332d;
-    --primary: #22c55e;
-    --primary-foreground: #052e14;
-    --danger: #f87171;
-    --on-tint: #86efac;
-  }
+  color-scheme: dark;
+  --true-black: #000000;
+  --background: #0a0a0a;      /* Obsidian Canvas */
+  --surface: #171717;         /* Charcoal Surface */
+  --border: #262626;          /* Graphite Edge */
+  --border-strong: #464646;   /* Steel Border */
+  --foreground: #fafafa;      /* Cloud White */
+  --primary: #e5e5e5;         /* Paper White: botones de conversión */
+  --primary-foreground: #171717;
+  --muted: #a1a1a1;           /* Fog */
+  --ash: #737373;             /* Ash: solo iconos y detalles, no texto */
+  --link: #ff8833;            /* Signal Orange: solo enlaces y flechas */
+  --accent: #262626;
+  --on-tint: #fafafa;
+  /* Estados funcionales (puntos y mensajes): se usan con mucha moderación */
+  --danger: #f87171;
+  --success: #4ade80;
+  --amber: #ffb931;
+  --spectrum: linear-gradient(90deg, #ffb931 15%, #ffffff 30%, #ffffff 40%, #2e73fc 50%);
 }
 
 @theme inline {
+  --color-true-black: var(--true-black);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-ash: var(--ash);
   --color-surface: var(--surface);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
-  --color-danger: var(--danger);
-  --color-forest: var(--forest);
+  --color-link: var(--link);
   --color-on-tint: var(--on-tint);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-amber: var(--amber);
   --font-sans: var(--font-inter);
+  /* Radios: botones 8px, tarjetas/inputs/marcos 10px; nada mayor salvo píldoras */
+  --radius-lg: 8px;
+  --radius-xl: 10px;
+  --radius-2xl: 10px;
+  --radius-3xl: 10px;
+  --shadow-lg: rgba(0, 0, 0, 0.3) 0px 8px 10px 0px;
+  --shadow-xl: rgba(0, 0, 0, 0.3) 0px 8px 10px 0px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, sans-serif;
+  font-feature-settings: "clig" 0, "liga" 0;
+  font-variant-ligatures: none;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* El autocompletado del navegador pinta los campos de claro: lo mantenemos oscuro. */
+input:-webkit-autofill, input:-webkit-autofill:focus, textarea:-webkit-autofill, select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px #000000 inset;
+  -webkit-text-fill-color: #fafafa;
+  caret-color: #fafafa;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+::selection { background: #fafafa; color: #0a0a0a; }
+
 :focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 2px solid var(--foreground);
   outline-offset: 2px;
 }
+
+/* Titular principal: 60px/500, interlineado 1 y -1,5px de tracking; más pequeño en móvil. */
+.display {
+  font-size: clamp(2.5rem, 7vw, 3.75rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -1.5px;
+}
+/* Titulares de sección: 36px/500 */
+.section-title {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1.11;
+  letter-spacing: -0.5px;
+}
+
+/* Avisos: superficies con borde fino, sin fondos de color. */
+.notice { border: 1px solid var(--border-strong); background: var(--surface); border-radius: 10px; }
+.notice-danger { border: 1px solid color-mix(in srgb, var(--danger) 45%, transparent); background: color-mix(in srgb, var(--danger) 8%, var(--background)); color: var(--danger); border-radius: 10px; }
+
+/* Marco de producto: borde fino, radio 10px y brillo interior apagado verdoso-gris. */
+.frame {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--background);
+  overflow: hidden;
+  box-shadow: rgba(101, 129, 128, 0.15) 0 0 2px 2px inset, rgba(32, 47, 46, 0.15) 0 0 4px 4px inset;
+}
+
+/* Línea decorativa con el espectro solar (solo gráficos, nunca botones). */
+.spectrum-line { height: 1px; background: var(--spectrum); }
 
 /* Ticket de comisión del hero: se «imprime» una sola vez al cargar. */
 @keyframes print-ticket {
@@ -65,7 +120,7 @@ body {
 
 /* Textos legales y artículos largos */
 .legal { max-width: 70ch; line-height: 1.7; }
-.legal h2 { margin: 2rem 0 0.5rem; font-size: 1.25rem; font-weight: 700; }
+.legal h2 { margin: 2rem 0 0.5rem; font-size: 1.25rem; font-weight: 600; }
 .legal h3 { margin: 1.25rem 0 0.25rem; font-weight: 600; }
 .legal p, .legal ul, .legal ol { margin: 0.75rem 0; }
 .legal ul { list-style: disc; padding-left: 1.5rem; }

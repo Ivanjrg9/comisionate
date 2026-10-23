@@ -27,7 +27,7 @@ export default async function AdminCompaniesPage({ searchParams }: PageProps<"/a
   );
   return (
     <>
-      <h1 className="mb-4 text-2xl font-bold">Empresas</h1>
+      <h1 className="mb-4 text-2xl font-semibold">Empresas</h1>
       <SearchBox q={q} placeholder="Buscar por razón social o CIF" keep={{ estado: filter }} />
       <nav aria-label="Filtrar por estado" className="mb-6 flex gap-2 overflow-x-auto pb-1">
         {chip("/admin/empresas", "Todas", !filter)}

@@ -20,18 +20,18 @@ const LIFECYCLE = [
 export default function HowItWorksPage() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-12">
-      <h1 className="max-w-3xl text-3xl font-extrabold sm:text-4xl">Cómo funciona ComisionaTe, paso a paso</h1>
+      <h1 className="max-w-3xl text-3xl font-semibold sm:text-4xl">Cómo funciona ComisionaTe, paso a paso</h1>
       <p className="mt-3 max-w-2xl text-lg text-muted">
         Una empresa publica una oferta con una comisión pactada. Un comercial se une, consigue clientes y, cuando la empresa valida un lead o una venta, cobra su comisión.
       </p>
 
       <section aria-labelledby="ciclo" className="mt-12">
-        <h2 id="ciclo" className="text-2xl font-extrabold">Del primer contacto al cobro</h2>
+        <h2 id="ciclo" className="text-2xl font-semibold">Del primer contacto al cobro</h2>
         <ol className="mt-6 max-w-3xl space-y-0 border-l-2 border-primary/40 pl-6">
           {LIFECYCLE.map((s, i) => (
             <li key={s.title} className="relative pb-8 last:pb-0">
-              <span aria-hidden className="absolute -left-[2.15rem] flex size-7 items-center justify-center rounded-full bg-accent text-sm font-extrabold text-neutral-900">{i + 1}</span>
-              <h3 className="text-lg font-bold">{s.title}</h3>
+              <span aria-hidden className="absolute -left-[2.15rem] flex size-7 items-center justify-center rounded-full border border-border-strong bg-surface text-sm font-semibold text-foreground">{i + 1}</span>
+              <h3 className="text-lg font-semibold">{s.title}</h3>
               <p className="mt-1 leading-relaxed text-muted">{s.text}</p>
               <p className="mt-1 inline-block rounded-full bg-primary/15 px-3 py-0.5 text-sm font-semibold text-on-tint">{s.term}</p>
             </li>
@@ -44,7 +44,7 @@ export default function HowItWorksPage() {
 
       <section aria-labelledby="dinero" className="mt-14 grid gap-8 lg:grid-cols-2">
         <div>
-          <h2 id="dinero" className="text-2xl font-extrabold">Cómo se mueve el dinero</h2>
+          <h2 id="dinero" className="text-2xl font-semibold">Cómo se mueve el dinero</h2>
           <ol className="mt-4 space-y-4">
             <li><strong>La empresa paga al comercial, directamente.</strong> Por transferencia, fuera de la plataforma. Marca «Pagado» y el comercial confirma «Recibido».</li>
             <li><strong>La empresa paga a ComisionaTe a fin de mes.</strong> Generamos una factura mensual con el {RULES.feePercent} % de las comisiones validadas ese mes, por transferencia en 15 días.</li>
@@ -52,7 +52,7 @@ export default function HowItWorksPage() {
           <p className="mt-4 text-muted">El comercial cobra la comisión íntegra. Ejemplo: con una comisión de 500 €, la empresa paga 500 € al comercial y 50 € a ComisionaTe. Las empresas fundadoras no pagan ese {RULES.feePercent} % durante los {RULES.founderMonths} primeros meses.</p>
         </div>
         <div className="rounded-2xl border border-border p-6">
-          <h3 className="text-lg font-bold">Impuestos</h3>
+          <h3 className="text-lg font-semibold">Impuestos</h3>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-muted">
             <li><strong className="text-foreground">Autónomo:</strong> sube su factura en PDF y ve un desglose orientativo: comisión + IVA 21 % − IRPF (15 %, o 7 % para nuevos autónomos).</li>
             <li><strong className="text-foreground">Particular:</strong> la plataforma genera un justificante de pago en PDF. Si vendes de forma habitual, consulta con un gestor si debes darte de alta como autónomo.</li>
@@ -62,7 +62,7 @@ export default function HowItWorksPage() {
       </section>
 
       <section aria-labelledby="protecciones" className="mt-14">
-        <h2 id="protecciones" className="text-2xl font-extrabold">Protecciones para las dos partes</h2>
+        <h2 id="protecciones" className="text-2xl font-semibold">Protecciones para las dos partes</h2>
         <dl className="mt-4 grid gap-x-10 gap-y-5 md:grid-cols-2">
           {[
             ["Cliente reservado", `El primer comercial que registra a un cliente para una empresa se lo queda ${RULES.reserveDays} días. Un segundo intento se bloquea y se le avisa sin revelar datos.`],
@@ -72,13 +72,13 @@ export default function HowItWorksPage() {
             ["Valoraciones e insignias", "Tras una comisión pagada, ambas partes se valoran. Hay insignias de empresa verificada, fundadora y buen pagador."],
             ["Normas de conducta", "Las dos partes se comprometen a unas normas. Los reportes llegan al equipo y las sanciones van de aviso a suspensión y expulsión."],
           ].map(([t, d]) => (
-            <div key={t}><dt className="font-bold">{t}</dt><dd className="mt-1 leading-relaxed text-muted">{d}</dd></div>
+            <div key={t}><dt className="font-semibold">{t}</dt><dd className="mt-1 leading-relaxed text-muted">{d}</dd></div>
           ))}
         </dl>
       </section>
 
       <section aria-labelledby="impagos" className="mt-14 max-w-3xl">
-        <h2 id="impagos" className="text-2xl font-extrabold">Si una empresa no paga</h2>
+        <h2 id="impagos" className="text-2xl font-semibold">Si una empresa no paga</h2>
         <table className="legal mt-4">
           <caption className="sr-only">Escalado de un impago de comisión</caption>
           <thead><tr><th scope="col">Desde que se marca «No recibido»</th><th scope="col">Qué ocurre</th></tr></thead>

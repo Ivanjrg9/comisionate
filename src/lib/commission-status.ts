@@ -9,13 +9,14 @@ export const COMMISSION_LABEL: Record<CommissionStatus, string> = {
   anulada: "Anulada",
 };
 
+/** Punto de color de la etiqueta: ámbar = pendiente, verde = pagada/cobrada, rojo = reclamada, gris = anulada. */
 export const COMMISSION_TONE: Record<CommissionStatus, string> = {
-  pendiente: "bg-accent/40",
-  exigible: "bg-accent/40",
-  pagada_empresa: "bg-primary/15 text-on-tint",
-  recibida: "bg-primary text-primary-foreground",
-  no_recibida: "bg-danger/15 text-danger",
-  anulada: "bg-surface text-muted",
+  pendiente: "bg-amber",
+  exigible: "bg-amber",
+  pagada_empresa: "bg-success",
+  recibida: "bg-success",
+  no_recibida: "bg-danger",
+  anulada: "bg-ash",
 };
 
 /** Agrupa para el dashboard del comercial: aún no firme / firme por cobrar / cobrado. */

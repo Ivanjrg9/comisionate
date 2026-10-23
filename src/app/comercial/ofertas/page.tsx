@@ -44,7 +44,7 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-bold">Ofertas disponibles</h1>
+      <h1 className="mb-4 text-2xl font-semibold">Ofertas disponibles</h1>
       <form className="mb-6 grid gap-3 rounded-xl border border-border bg-surface p-4 sm:grid-cols-2 lg:grid-cols-5 lg:items-end">
         <Select label="Sector" name="sector" defaultValue={q.sector ?? ""}>
           <option value="">Todos</option>
@@ -81,7 +81,7 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
                     </div>
                   </div>
                   {st && <div className="mt-3 space-y-1"><Badges stats={st} /><Rating rating={st.rating === null ? null : Number(st.rating)} reviews={st.reviews} /></div>}
-                  <p className="mt-3 text-lg font-bold text-primary">
+                  <p className="mt-3 text-lg font-semibold text-primary">
                     {o.est > 0 ? `Hasta ${euros(o.est)} por cliente` : "Comisión a consultar"}
                   </p>
                   <p className="text-sm text-muted">
@@ -89,7 +89,7 @@ export default async function MarketplacePage({ searchParams }: PageProps<"/come
                   </p>
                   <p className="mt-2 text-sm">
                     {o.zones.length ? o.zones.join(", ") : "Toda España"}
-                    {o.only_autonomos && <span className="ml-2 rounded-full bg-accent/40 px-2 py-0.5 text-xs font-medium">Solo autónomos</span>}
+                    {o.only_autonomos && <span className="ml-2 rounded-full border border-border-strong bg-surface px-2 py-0.5 text-xs font-medium">Solo autónomos</span>}
                   </p>
                 </Link>
               </li>

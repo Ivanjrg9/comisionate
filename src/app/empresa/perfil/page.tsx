@@ -10,9 +10,9 @@ export default async function CompanyProfilePage() {
   const [company, sectors] = await Promise.all([getMyCompany(), getSectors()]);
   return (
     <div className="max-w-xl">
-      <h1 className="mb-6 text-2xl font-bold">Perfil de empresa</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Perfil de empresa</h1>
       {company.baja_requested_at && (
-        <p role="status" className="mb-6 rounded-lg bg-accent/30 p-3 text-sm">
+        <p role="status" className="mb-6 rounded-xl border border-border-strong bg-surface p-3 text-sm">
           Baja solicitada el {dateEs(company.baja_requested_at)}. Tus ofertas están cerradas. Los clientes ya registrados siguen generando comisión durante 90 días; después cerraremos la cuenta si todo está pagado.
         </p>
       )}

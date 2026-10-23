@@ -25,8 +25,8 @@ export default async function AdminLeadsPage({ searchParams }: PageProps<"/admin
   return (
     <>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">Leads y ventas</h1>
-        <Link href={revision ? "/admin/leads" : "/admin/leads?revision=1"} className="text-sm font-semibold text-primary underline">
+        <h1 className="text-2xl font-semibold">Leads y ventas</h1>
+        <Link href={revision ? "/admin/leads" : "/admin/leads?revision=1"} className="text-sm text-link underline underline-offset-4">
           {revision ? "Ver todos" : "Solo los que requieren revisión"}
         </Link>
       </div>

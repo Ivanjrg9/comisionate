@@ -20,7 +20,7 @@ export async function NotificationBell() {
           <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
         {unread > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex min-w-5 items-center justify-center rounded-full bg-danger px-1 text-xs font-bold text-white">
+          <span className="absolute -right-0.5 -top-0.5 flex min-w-5 items-center justify-center rounded-full bg-danger px-1 text-xs font-semibold text-white">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
@@ -31,7 +31,7 @@ export async function NotificationBell() {
             {items.map((n) => (
               <li key={n.id}>
                 <a href={`/notificaciones/${n.id}`} className="block rounded-lg px-3 py-2 hover:bg-surface">
-                  <p className={`text-sm ${n.read_at ? "" : "font-bold"}`}>{n.title}</p>
+                  <p className={`text-sm ${n.read_at ? "" : "font-semibold"}`}>{n.title}</p>
                   {n.body && <p className="text-xs text-muted">{n.body}</p>}
                 </a>
               </li>
@@ -42,7 +42,7 @@ export async function NotificationBell() {
         )}
         {unread > 0 && (
           <form action={markAllRead} className="border-t border-border p-2">
-            <button className="text-sm font-semibold text-primary underline">Marcar todas como leídas</button>
+            <button className="text-sm text-link underline underline-offset-4">Marcar todas como leídas</button>
           </form>
         )}
       </div>

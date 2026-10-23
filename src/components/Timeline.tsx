@@ -9,7 +9,7 @@ export function Timeline({ events }: { events: LeadEvent[] }) {
         .filter((e) => e.to_status !== "venta") // «venta» y «periodo de cancelación» ocurren a la vez
         .map((e) => (
           <li key={e.id} className="relative">
-            <span aria-hidden className="absolute -left-[1.4rem] top-1.5 size-2.5 rounded-full bg-primary" />
+            <span aria-hidden className="absolute -left-[1.4rem] top-1.5 size-2.5 rounded-full bg-foreground" />
             <p className="font-medium">{LEAD_STATUS_LABEL[e.to_status]}</p>
             <p className="text-sm text-muted">
               {new Date(e.created_at).toLocaleString("es-ES", { dateStyle: "medium", timeStyle: "short" })}

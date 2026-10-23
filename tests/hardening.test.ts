@@ -92,3 +92,36 @@ describe("avisos al administrador", () => {
     expect(data).toEqual([{ link: `/admin/empresas/${company}`, body: `Aviso ${stamp} SL` }]);
   });
 });
+
+describe("lectura de lo propio aunque la empresa quede castigada", () => {
+  it("un comercial sigue viendo la oferta y la empresa de sus clientes cuando se ocultan o se suspende la empresa", async () => {
+    const com = await loginAs("comercial5@comisionate.test");
+    const company = (await db.from("companies").select("id").eq("legal_name", "Fotón Hogar").single()).data!.id;
+    await registerLead(com, await membershipOf(com, "Kit solar Madrid"));
+    try {
+      await db.from("offers").update({ status: "oculta" }).eq("company_id", company);
+      await db.from("companies").update({ status: "suspendida", suspension_reason: "admin" }).eq("id", company);
+      const { data, error } = await com.from("leads").select("customer_name, offers(title, companies(legal_name))").limit(5);
+      expect(error).toBeNull();
+      expect(data!.length).toBeGreaterThan(0);
+      for (const l of data!) {
+        const offer = l.offers as unknown as { title: string; companies: { legal_name: string } } | null;
+        expect(offer?.title).toBeTruthy();
+        expect(offer?.companies?.legal_name).toBeTruthy();
+      }
+    } finally {
+      await db.from("companies").update({ status: "verificada", suspension_reason: null }).eq("id", company);
+      await db.from("offers").update({ status: "activa" }).eq("company_id", company).eq("status", "oculta");
+    }
+  });
+
+  it("un usuario sin relación con esa oferta no la ve cuando está oculta", async () => {
+    const other = await newUser("comercial");
+    const client = await loginAs(other.email);
+    const hidden = (await db.from("offers").select("id").eq("title", "Solar para empresas y naves").single()).data!.id;
+    const prev = (await db.from("offers").select("status").eq("id", hidden).single()).data!.status;
+    await db.from("offers").update({ status: "oculta" }).eq("id", hidden);
+    expect((await client.from("offers").select("id").eq("id", hidden)).data).toHaveLength(0);
+    await db.from("offers").update({ status: prev }).eq("id", hidden);
+  });
+});

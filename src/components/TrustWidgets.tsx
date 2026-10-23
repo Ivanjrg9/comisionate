@@ -34,7 +34,7 @@ export function DisputeForm({ leadId }: { leadId: string }) {
   return (
     <form onSubmit={onSubmit} className="space-y-3 rounded-xl border border-border p-4" noValidate>
       <input type="hidden" name="lead_id" value={leadId} />
-      <h3 className="font-bold">¿No estás de acuerdo? Abre una disputa</h3>
+      <h3 className="font-semibold">¿No estás de acuerdo? Abre una disputa</h3>
       <p className="text-sm text-muted">El equipo de ComisionaTe revisará el caso y decidirá. Si te da la razón, el cliente vuelve al estado que le corresponde.</p>
       <TextArea label="Tu explicación" name="explanation" rows={3} error={state.fieldErrors?.explanation} />
       <div className="flex items-center gap-3">
@@ -49,7 +49,7 @@ export function ReviewForm({ commissionId, whom }: { commissionId: string; whom:
   const { state, onSubmit, pending } = useServerForm(submitReview);
   return (
     <details className="text-sm">
-      <summary className="cursor-pointer font-semibold text-primary underline">Valorar {whom}</summary>
+      <summary className="cursor-pointer text-link underline underline-offset-4">Valorar {whom}</summary>
       <form onSubmit={onSubmit} className="mt-2 space-y-3" noValidate>
         <input type="hidden" name="commission_id" value={commissionId} />
         <Select label="Puntuación" name="stars" defaultValue="5">

@@ -34,12 +34,12 @@ export default async function SalespersonHome() {
   return (
     <>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">Hola, {profile?.full_name}</h1>
+        <h1 className="text-2xl font-semibold">Hola, {profile?.full_name}</h1>
         <Link href="/comercial/leads/nuevo" className={buttonClass}>Registrar cliente</Link>
       </div>
 
       {!sp?.nif && (
-        <Link href="/comercial/perfil" className="mb-6 block rounded-lg bg-accent/30 p-3 font-medium underline">
+        <Link href="/comercial/perfil" className="mb-6 block rounded-xl border border-border-strong bg-surface p-3 font-medium underline">
           Completa tu perfil (DNI/NIE y si eres autónomo o particular) para poder cobrar tus comisiones.
         </Link>
       )}
@@ -50,7 +50,7 @@ export default async function SalespersonHome() {
         </Link>
       )}
       {codes === 0 && (
-        <p className="mb-6 rounded-lg bg-accent/30 p-3">Aún no tienes ningún código. <Link href="/comercial/ofertas" className="font-semibold underline">Mira las ofertas y únete a una</Link>.</p>
+        <p className="mb-6 rounded-xl border border-border-strong bg-surface p-3">Aún no tienes ningún código. <Link href="/comercial/ofertas" className="font-semibold underline">Mira las ofertas y únete a una</Link>.</p>
       )}
 
       <div className="mb-8 grid gap-3 sm:grid-cols-3">
@@ -60,7 +60,7 @@ export default async function SalespersonHome() {
       </div>
 
       <section aria-labelledby="clientes">
-        <h2 id="clientes" className="mb-3 text-lg font-bold">Tus clientes por estado</h2>
+        <h2 id="clientes" className="mb-3 text-lg font-semibold">Tus clientes por estado</h2>
         <BarList items={byStatus} />
       </section>
     </>

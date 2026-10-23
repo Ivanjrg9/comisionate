@@ -49,6 +49,37 @@ test.describe("web pública", () => {
     }
   });
 
+  test("aplica el sistema de diseño Graphite (lienzo casi negro, texto blanco, botón principal Paper White)", async ({ page }) => {
+    await page.goto("/");
+    const css = await page.evaluate(() => {
+      const cta = [...document.querySelectorAll("a")].find((a) => a.textContent?.includes("Soy comercial: empieza gratis"))!;
+      return {
+        bg: getComputedStyle(document.body).backgroundColor,
+        fg: getComputedStyle(document.body).color,
+        scheme: getComputedStyle(document.documentElement).colorScheme,
+        cta: getComputedStyle(cta).backgroundColor,
+        ctaRadius: getComputedStyle(cta).borderTopLeftRadius,
+        h1Size: getComputedStyle(document.querySelector("h1")!).fontSize,
+      };
+    });
+    expect(css).toMatchObject({ bg: "rgb(10, 10, 10)", fg: "rgb(250, 250, 250)", scheme: "dark", cta: "rgb(229, 229, 229)", ctaRadius: "8px" });
+    expect(parseFloat(css.h1Size)).toBeLessThanOrEqual(60);
+  });
+
+  test("el marco de producto cambia de pestaña con el teclado (flechas)", async ({ page }) => {
+    await page.goto("/");
+    const tabs = page.getByRole("tab");
+    await expect(tabs).toHaveCount(3);
+    await tabs.first().focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+    await expect(page.getByRole("tabpanel")).toContainText("Cada cliente, en su punto del proceso");
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByRole("tabpanel")).toContainText("Tu comisión, íntegra y con fecha");
+    await page.keyboard.press("ArrowRight");
+    await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
+  });
+
   test("las cabeceras de seguridad están presentes", async ({ request }) => {
     const res = await request.get("/");
     expect(res.headers()["x-frame-options"]).toBe("DENY");

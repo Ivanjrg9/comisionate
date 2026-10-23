@@ -10,6 +10,10 @@
 
 Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Supabase (Auth, Postgres, RLS, Storage, pg_cron) · zod · pdf-lib · Vitest · Vercel.
 
+## Diseño
+
+La interfaz sigue el sistema **Graphite** (tema oscuro, bordes finos, tipografía Inter): los valores están como variables CSS en `src/app/globals.css`. La referencia de estilo original es `DESIGN.md`.
+
 ## Requisitos
 
 - Node.js 20 o superior (probado con 24) y npm

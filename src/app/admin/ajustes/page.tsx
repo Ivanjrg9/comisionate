@@ -10,10 +10,10 @@ export default async function AdminSettingsPage() {
   const get = (k: string) => Number(data?.find((s) => s.key === k)?.value ?? 0);
   return (
     <div className="max-w-xl space-y-8">
-      <h1 className="text-2xl font-bold">Ajustes</h1>
+      <h1 className="text-2xl font-semibold">Ajustes</h1>
       <FeeForm fee={get("fee_percent")} />
       <section aria-labelledby="plazos">
-        <h2 id="plazos" className="mb-2 text-lg font-bold">Plazos vigentes</h2>
+        <h2 id="plazos" className="mb-2 text-lg font-semibold">Plazos vigentes</h2>
         <ul className="list-disc space-y-1 pl-5 text-sm">
           <li>Periodo de cancelación: {get("cancel_days")} días</li>
           <li>Plazo de pago de la empresa: {get("pay_days")} días</li>

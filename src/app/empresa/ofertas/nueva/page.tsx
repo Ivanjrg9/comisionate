@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Nueva oferta" };
 export default async function NewOfferPage() {
   return (
     <div className="max-w-2xl">
-      <h1 className="mb-6 text-2xl font-bold">Nueva oferta</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Nueva oferta</h1>
       <OfferForm sectors={await getSectors()} />
     </div>
   );

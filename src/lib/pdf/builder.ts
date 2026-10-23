@@ -2,7 +2,7 @@ import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage } from "pdf
 
 const MARGIN = 50;
 const PAGE: [number, number] = [595.28, 841.89]; // A4
-const GREEN = rgb(0.086, 0.639, 0.29);
+const INK = rgb(0.09, 0.09, 0.09); // #171717
 
 /** Constructor mínimo de PDFs A4: título, párrafos con salto de línea, filas etiqueta/valor y paginación. */
 export class PdfBuilder {
@@ -66,7 +66,7 @@ export class PdfBuilder {
 
   heading(text: string) {
     this.ensure(30);
-    this.page.drawText(this.clean(text, this.bold), { x: MARGIN, y: this.y, size: 16, font: this.bold, color: GREEN });
+    this.page.drawText(this.clean(text, this.bold), { x: MARGIN, y: this.y, size: 16, font: this.bold, color: INK });
     this.y -= 26;
   }
 

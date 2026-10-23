@@ -41,14 +41,14 @@ export default async function CompanyLeadsPage({ searchParams }: PageProps<"/emp
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-bold">Leads y ventas</h1>
+      <h1 className="mb-4 text-2xl font-semibold">Leads y ventas</h1>
       <SearchBox q={q} placeholder="Buscar por nombre o teléfono" keep={{ estado: filter }} />
       <nav aria-label="Filtrar por estado" className="mb-6 flex gap-2 overflow-x-auto pb-1">
         {chip("/empresa/leads", "Todos", !filter)}
         {FILTERS.map((s) => chip(`/empresa/leads?estado=${s}`, LEAD_STATUS_LABEL[s], filter === s))}
       </nav>
       {!leads?.length ? (
-        <p className="text-muted">{page > 1 && <><Link href="/empresa/leads" className="font-semibold text-primary underline">Volver a la primera página</Link>. </>}No hay leads {filter ? "en este estado" : "todavía"}.</p>
+        <p className="text-muted">{page > 1 && <><Link href="/empresa/leads" className="text-link underline underline-offset-4">Volver a la primera página</Link>. </>}No hay leads {filter ? "en este estado" : "todavía"}.</p>
       ) : (
         <ul className="space-y-3">
           {leads.map((l) => {

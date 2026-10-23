@@ -12,7 +12,7 @@ export default async function AdminOffersPage() {
     .order("created_at", { ascending: false });
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Ofertas</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Ofertas</h1>
       <ul className="space-y-3">
         {(data ?? []).map((o) => (
           <li key={o.id} className="rounded-xl border border-border p-4">

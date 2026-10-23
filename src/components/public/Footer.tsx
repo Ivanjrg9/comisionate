@@ -12,7 +12,7 @@ const LEGAL_LINKS = [
 
 export function Footer() {
   return (
-    <footer className="mt-auto border-t border-border bg-surface">
+    <footer className="mt-auto border-t border-border bg-background">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-[1.2fr_1fr_1fr]">
         <div className="space-y-2">
           <Logo />
@@ -22,20 +22,20 @@ export function Footer() {
           </p>
         </div>
         <nav aria-label="Plataforma" className="space-y-2 text-sm">
-          <p className="font-semibold">Plataforma</p>
+          <p className="font-medium">Plataforma</p>
           <ul className="space-y-1">
-            <li><Link className="hover:underline" href="/ofertas">Ofertas</Link></li>
-            <li><Link className="hover:underline" href="/como-funciona">Cómo funciona</Link></li>
-            <li><Link className="hover:underline" href="/preguntas-frecuentes">Preguntas frecuentes</Link></li>
-            <li><Link className="hover:underline" href="/registro?rol=empresa">Soy empresa</Link></li>
-            <li><Link className="hover:underline" href="/registro?rol=comercial">Soy comercial</Link></li>
-            <li><Link className="hover:underline" href="/login">Entrar</Link></li>
+            <li><Link className="text-muted transition hover:text-foreground" href="/ofertas">Ofertas</Link></li>
+            <li><Link className="text-muted transition hover:text-foreground" href="/como-funciona">Cómo funciona</Link></li>
+            <li><Link className="text-muted transition hover:text-foreground" href="/preguntas-frecuentes">Preguntas frecuentes</Link></li>
+            <li><Link className="text-muted transition hover:text-foreground" href="/registro?rol=empresa">Soy empresa</Link></li>
+            <li><Link className="text-muted transition hover:text-foreground" href="/registro?rol=comercial">Soy comercial</Link></li>
+            <li><Link className="text-muted transition hover:text-foreground" href="/login">Entrar</Link></li>
           </ul>
         </nav>
         <nav aria-label="Legal" className="space-y-2 text-sm">
-          <p className="font-semibold">Legal</p>
+          <p className="font-medium">Legal</p>
           <ul className="space-y-1">
-            {LEGAL_LINKS.map(([href, label]) => <li key={href}><Link className="hover:underline" href={href}>{label}</Link></li>)}
+            {LEGAL_LINKS.map(([href, label]) => <li key={href}><Link className="text-muted transition hover:text-foreground" href={href}>{label}</Link></li>)}
           </ul>
         </nav>
       </div>

@@ -42,17 +42,17 @@ export default async function EditOfferPage({ params }: PageProps<"/empresa/ofer
   return (
     <div className="max-w-2xl space-y-10">
       <section>
-        <h1 className="mb-6 text-2xl font-bold">{offer.title}</h1>
+        <h1 className="mb-6 text-2xl font-semibold">{offer.title}</h1>
         <OfferForm offer={offer} sectors={sectors} />
       </section>
 
       <section aria-labelledby="materiales">
-        <h2 id="materiales" className="mb-3 text-xl font-bold">Material de venta</h2>
+        <h2 id="materiales" className="mb-3 text-xl font-semibold">Material de venta</h2>
         {links.length > 0 && (
           <ul className="mb-4 space-y-2">
             {links.map((m) => (
               <li key={m.id} className="flex items-center justify-between gap-3 rounded-lg border border-border p-3">
-                <a href={m.url} target="_blank" rel="noreferrer" className="font-medium text-primary underline">{m.name}</a>
+                <a href={m.url} target="_blank" rel="noreferrer" className="text-link underline underline-offset-4">{m.name}</a>
                 <form action={deleteMaterial}>
                   <input type="hidden" name="id" value={m.id} />
                   <button className="text-sm text-danger underline">Quitar</button>
@@ -65,8 +65,8 @@ export default async function EditOfferPage({ params }: PageProps<"/empresa/ofer
       </section>
 
       <section aria-labelledby="comerciales">
-        <h2 id="comerciales" className="mb-3 text-xl font-bold">Comerciales</h2>
-        {pending.length > 0 && <p className="mb-3 rounded-lg bg-accent/30 p-3 text-sm">Tienes {pending.length} solicitud(es) pendiente(s) de aprobar.</p>}
+        <h2 id="comerciales" className="mb-3 text-xl font-semibold">Comerciales</h2>
+        {pending.length > 0 && <p className="mb-3 rounded-xl border border-border-strong bg-surface p-3 text-sm">Tienes {pending.length} solicitud(es) pendiente(s) de aprobar.</p>}
         {!members?.length ? (
           <p className="text-muted">Aún no se ha unido ningún comercial.</p>
         ) : (

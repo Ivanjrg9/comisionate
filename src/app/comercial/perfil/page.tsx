@@ -20,9 +20,9 @@ export default async function SalespersonProfilePage() {
   ]);
   return (
     <div className="max-w-xl">
-      <h1 className="mb-6 text-2xl font-bold">Mi perfil</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Mi perfil</h1>
       {profile?.leaving_at && (
-        <p role="status" className="mb-6 rounded-lg bg-accent/30 p-3 text-sm">
+        <p role="status" className="mb-6 rounded-xl border border-border-strong bg-surface p-3 text-sm">
           Has solicitado la baja el {dateEs(profile.leaving_at)}. Tus códigos están desactivados; cerraremos la cuenta cuando hayas cobrado todo lo pendiente.
         </p>
       )}

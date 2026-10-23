@@ -21,7 +21,7 @@ export default async function AdminSalespeoplePage({ searchParams }: PageProps<"
   const { data, count } = await query;
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Comerciales</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Comerciales</h1>
       <SearchBox q={q} placeholder="Buscar por nombre o email" />
       <ul className="space-y-3">
         {(data ?? []).map((p) => {

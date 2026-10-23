@@ -3,6 +3,15 @@
 Para retomar: "lee SPEC.md y docs/PROGRESO.md y continúa".
 Entorno local: `supabase start` (Docker) → `supabase db reset` (migraciones + seed) → `npm run dev` → `npm test`.
 
+## Rediseño visual «Graphite» — TERMINADO
+- Tokens y base: tema oscuro único, radios 8/10 px, Inter (14/500 en controles, 60/500 con -1,5 px en el titular), foco visible,
+  autocompletado oscuro. Botón principal Paper White, secundario Charcoal, enlaces naranjas con flecha.
+- Web pública: barra de anuncio, navegación flotante, hero con polígono luminoso y ticket de comisión, marco de producto con
+  pestañas accesibles (flechas de teclado), tarjetas de pasos con paneles de bandas, mosaico para comerciales/empresas,
+  calculadora, FAQ y CTA. Paneles con navegación flotante y sección activa; etiquetas de estado con punto de color.
+- Calidad: 0 violaciones WCAG 2.1 AA en 33 pantallas (axe-core). 83 tests unitarios/BD + 35 E2E (incluye uno que comprueba
+  los tokens de Graphite en el DOM). **Bug real corregido** durante la revisión visual (ver decisión 37).
+
 ## Endurecimiento previo al piloto — TERMINADO
 - Seguridad: una empresa con deuda o en baja ya no puede reactivar ofertas ocultas; un comercial suspendido no puede registrar
   clientes aunque conserve la sesión; cabeceras de seguridad. **Bug real corregido:** al pagar una empresa suspendida por impago,

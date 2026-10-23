@@ -36,19 +36,19 @@ export default async function AdminHome() {
 
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Administración</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Administración</h1>
       <section aria-labelledby="pendiente" className="mb-8">
-        <h2 id="pendiente" className="mb-3 text-lg font-bold">Pendiente de revisar</h2>
+        <h2 id="pendiente" className="mb-3 text-lg font-semibold">Pendiente de revisar</h2>
         {todo.length ? (
           <ul className="grid gap-2 sm:grid-cols-2">
             {todo.map((t) => (
-              <li key={t.label}><Link href={t.href} className="block rounded-lg bg-accent/30 p-3 font-medium hover:bg-accent/50"><strong className="text-lg">{t.n}</strong> {t.label}</Link></li>
+              <li key={t.label}><Link href={t.href} className="block rounded-xl border border-border-strong bg-surface p-3 font-medium hover:bg-accent/50"><strong className="text-lg">{t.n}</strong> {t.label}</Link></li>
             ))}
           </ul>
         ) : <p className="text-muted">Todo al día ✓</p>}
       </section>
       <section aria-labelledby="metricas">
-        <h2 id="metricas" className="mb-3 text-lg font-bold">Métricas globales</h2>
+        <h2 id="metricas" className="mb-3 text-lg font-semibold">Métricas globales</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <Stat label="Empresas activas" value={String(companies.count ?? 0)} />
           <Stat label="Comerciales activos" value={String(salespeople.count ?? 0)} />

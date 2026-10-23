@@ -30,7 +30,7 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
   const code = (lead.memberships as unknown as { referral_code: string }).referral_code;
 
   const rows: [string, React.ReactNode][] = [
-    ["Teléfono", <a key="t" href={`tel:${lead.phone_e164}`} className="text-primary underline">{lead.phone_e164}</a>],
+    ["Teléfono", <a key="t" href={`tel:${lead.phone_e164}`} className="text-link underline underline-offset-4">{lead.phone_e164}</a>],
     ["Email", lead.email ?? "—"],
     ["Municipio", [lead.municipality, lead.postal_code].filter(Boolean).join(" · ") || "—"],
     ["Inmueble", lead.property_type ?? "—"],
@@ -43,10 +43,10 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
 
   return (
     <div className="max-w-2xl space-y-8">
-      <Link href="/empresa/leads" className="text-sm text-primary underline">← Volver a leads</Link>
+      <Link href="/empresa/leads" className="text-sm text-link underline underline-offset-4">← Volver a leads</Link>
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">{lead.customer_name}</h1>
+          <h1 className="text-2xl font-semibold">{lead.customer_name}</h1>
           <p className="text-muted">{offer.title}</p>
         </div>
         <StatusBadge status={lead.status} />
@@ -60,7 +60,7 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
 
       {!!commissions?.length && (
         <section aria-labelledby="comisiones">
-          <h2 id="comisiones" className="mb-2 text-lg font-bold">Comisiones</h2>
+          <h2 id="comisiones" className="mb-2 text-lg font-semibold">Comisiones</h2>
           <ul className="space-y-2">
             {commissions.map((c) => (
               <li key={c.id} className="rounded-lg border border-border p-3 text-sm">
@@ -74,8 +74,8 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
       )}
 
       {dispute && (
-        <section aria-labelledby="disputa" className="space-y-1 rounded-xl border border-accent bg-accent/20 p-4">
-          <h2 id="disputa" className="text-lg font-bold">Disputa del comercial</h2>
+        <section aria-labelledby="disputa" className="space-y-1 rounded-xl border border-accent border border-border-strong bg-surface p-4">
+          <h2 id="disputa" className="text-lg font-semibold">Disputa del comercial</h2>
           <p className="text-sm"><strong>Estado:</strong> {dispute.status === "abierta" ? "abierta, la revisa ComisionaTe" : dispute.status === "resuelta_comercial" ? "resuelta a favor del comercial" : "resuelta a favor de la empresa"}</p>
           <blockquote className="border-l-4 border-border pl-3 text-sm">{dispute.explanation}</blockquote>
           {dispute.resolution && <p className="text-sm"><strong>Decisión:</strong> {dispute.resolution}</p>}
@@ -83,16 +83,16 @@ export default async function CompanyLeadPage({ params }: PageProps<"/empresa/le
       )}
 
       <section aria-labelledby="acciones" className="space-y-4 rounded-xl border border-border bg-surface p-4">
-        <h2 id="acciones" className="text-lg font-bold">Acciones</h2>
+        <h2 id="acciones" className="text-lg font-semibold">Acciones</h2>
         <LeadActions leadId={lead.id} status={lead.status} />
       </section>
 
       <p>
-        <a href={`/api/leads/${lead.id}/informe`} className="font-semibold text-primary underline">Descargar informe de esta venta (PDF)</a>
+        <a href={`/api/leads/${lead.id}/informe`} className="text-link underline underline-offset-4">Descargar informe de esta venta (PDF)</a>
       </p>
 
       <section aria-labelledby="historial">
-        <h2 id="historial" className="mb-3 text-lg font-bold">Historial</h2>
+        <h2 id="historial" className="mb-3 text-lg font-semibold">Historial</h2>
         <Timeline events={events ?? []} />
       </section>
       <ReportForm leadId={lead.id} label="Reportar un problema con este comercial o venta" />

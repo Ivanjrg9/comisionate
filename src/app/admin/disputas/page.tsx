@@ -18,7 +18,7 @@ export default async function AdminDisputesPage() {
     .order("created_at", { ascending: false });
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Disputas</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Disputas</h1>
       {!data?.length && <p className="text-muted">No hay disputas.</p>}
       <ul className="space-y-4">
         {(data ?? []).map((d) => {
@@ -27,7 +27,7 @@ export default async function AdminDisputesPage() {
             <li key={d.id} className="space-y-3 rounded-xl border border-border p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="font-semibold"><Link href={`/admin/leads/${l.id}`} className="underline">{l.customer_name}</Link> · {l.offers.title}</p>
-                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${d.status === "abierta" ? "bg-accent/40" : "bg-surface"}`}>{STATUS[d.status as keyof typeof STATUS]}</span>
+                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${d.status === "abierta" ? "border border-border-strong bg-surface" : "bg-surface"}`}>{STATUS[d.status as keyof typeof STATUS]}</span>
               </div>
               <p className="text-sm text-muted">{l.offers.companies.legal_name} · abierta por {(d.profiles as unknown as { full_name: string }).full_name} el {dateEs(d.created_at)}</p>
               <p className="text-sm"><strong>Estado del lead:</strong> {l.status}{l.reject_reason && ` · motivo de la empresa: ${readableReason(l.reject_reason + (l.reject_note ? `: ${l.reject_note}` : ""))}`}</p>

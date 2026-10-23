@@ -19,7 +19,7 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
   );
   return (
     <>
-      <h1 className="mb-4 text-2xl font-bold">Crea tu cuenta gratis</h1>
+      <h1 className="mb-4 text-2xl font-semibold">Crea tu cuenta gratis</h1>
       <nav aria-label="Tipo de cuenta" className="mb-5 flex gap-2 rounded-xl bg-background p-1">
         {tab("comercial", "Soy comercial")}
         {tab("empresa", "Soy empresa")}
@@ -32,7 +32,7 @@ export default async function RegisterPage({ searchParams }: PageProps<"/registr
       )}
       <RegisterForm key={role} role={role} />
       <p className="mt-6 text-center text-sm text-muted">
-        ¿Ya tienes cuenta? <Link href="/login" className="font-semibold text-primary underline">Entrar</Link>
+        ¿Ya tienes cuenta? <Link href="/login" className="text-link underline underline-offset-4">Entrar</Link>
       </p>
     </>
   );

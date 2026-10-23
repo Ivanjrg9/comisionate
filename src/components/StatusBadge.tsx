@@ -2,7 +2,8 @@ import { LEAD_STATUS_LABEL, LEAD_STATUS_TONE, type LeadStatus } from "@/lib/lead
 
 export function StatusBadge({ status }: { status: LeadStatus }) {
   return (
-    <span className={`inline-block whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold ${LEAD_STATUS_TONE[status]}`}>
+    <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-foreground">
+      <span aria-hidden className={`size-2 rounded-full ${LEAD_STATUS_TONE[status]}`} />
       {LEAD_STATUS_LABEL[status]}
     </span>
   );

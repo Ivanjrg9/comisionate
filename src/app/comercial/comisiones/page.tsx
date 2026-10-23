@@ -37,7 +37,7 @@ export default async function SalespersonCommissionsPage() {
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-bold">Mis comisiones</h1>
+      <h1 className="mb-4 text-2xl font-semibold">Mis comisiones</h1>
       <div className="mb-6 grid gap-3 sm:grid-cols-3">
         <Stat label="Pendientes de firmeza" value={euros(totals.pendiente)} hint="Ventas en periodo de cancelación (14 días)" />
         <Stat label="Confirmadas, por cobrar" value={euros(totals.confirmada)} hint="Comisiones firmes que debe pagar la empresa" tone="primary" />
@@ -69,7 +69,7 @@ export default async function SalespersonCommissionsPage() {
                     <p className="text-sm text-muted">{lead.offers.title}</p>
                   </div>
                   <div className="sm:text-right">
-                    <p className="text-xl font-extrabold">{euros(c.amount_cents)}</p>
+                    <p className="text-xl font-semibold">{euros(c.amount_cents)}</p>
                     <CommissionBadge status={status} />
                   </div>
                 </div>
@@ -93,9 +93,9 @@ export default async function SalespersonCommissionsPage() {
                 {status === "recibida" && !reviewed.has(c.id) && <ReviewForm commissionId={c.id} whom="a la empresa" />}
                 <div className="flex flex-wrap gap-4 text-sm font-medium">
                   {sp?.fiscal === "particular" && (status === "pagada_empresa" || status === "recibida") && (
-                    <a className="text-primary underline" href={`/api/comisiones/${c.id}/justificante`}>Descargar justificante de pago (PDF)</a>
+                    <a className="text-link underline underline-offset-4" href={`/api/comisiones/${c.id}/justificante`}>Descargar justificante de pago (PDF)</a>
                   )}
-                  <Link className="text-primary underline" href={`/comercial/leads/${lead.id}`}>Ver cliente</Link>
+                  <Link className="text-link underline underline-offset-4" href={`/comercial/leads/${lead.id}`}>Ver cliente</Link>
                 </div>
               </li>
             );

@@ -31,13 +31,13 @@ export default async function PublicOffersPage() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-12">
-      <h1 className="text-3xl font-extrabold sm:text-4xl">Ofertas disponibles ahora</h1>
+      <h1 className="text-3xl font-semibold sm:text-4xl">Ofertas disponibles ahora</h1>
       <p className="mb-8 mt-2 max-w-2xl text-muted">
         Estas son las ofertas activas. Regístrate gratis para ver las condiciones completas, unirte y conseguir tu código de referido.
       </p>
 
       {!offers.length ? (
-        <p className="text-muted">Ahora mismo no hay ofertas publicadas. Vuelve pronto o <Link href="/registro?rol=comercial" className="font-semibold text-primary underline">crea tu cuenta</Link> para enterarte de las nuevas.</p>
+        <p className="text-muted">Ahora mismo no hay ofertas publicadas. Vuelve pronto o <Link href="/registro?rol=comercial" className="text-link underline underline-offset-4">crea tu cuenta</Link> para enterarte de las nuevas.</p>
       ) : (
         <ul className="grid gap-4 md:grid-cols-2">
           {offers.map((o) => {
@@ -49,16 +49,16 @@ export default async function PublicOffersPage() {
                 <div className="flex items-center gap-3">
                   <Avatar src={logo} name={company.legal_name} />
                   <div>
-                    <h2 className="font-bold">{o.title}</h2>
+                    <h2 className="font-semibold">{o.title}</h2>
                     <p className="text-sm text-muted">{company.legal_name}</p>
                   </div>
                 </div>
                 {st && <div className="mt-3 space-y-1"><Badges stats={st} /><Rating rating={st.rating === null ? null : Number(st.rating)} reviews={st.reviews} /></div>}
-                <p className="mt-3 text-lg font-bold text-primary">{o.est > 0 ? `Hasta ${euros(o.est)} por cliente` : "Comisión a consultar"}</p>
+                <p className="mt-3 text-lg font-semibold text-primary">{o.est > 0 ? `Hasta ${euros(o.est)} por cliente` : "Comisión a consultar"}</p>
                 <p className="text-sm text-muted">{[o.lead_kind && `Lead: ${amountLabel(o.lead_kind, o.lead_value!)}`, o.sale_kind && `Venta: ${amountLabel(o.sale_kind, o.sale_value!)}`].filter(Boolean).join(" · ")}</p>
                 <p className="mt-2 text-sm">
                   {o.zones.length ? o.zones.join(", ") : "Toda España"}
-                  {o.only_autonomos && <span className="ml-2 rounded-full bg-accent/40 px-2 py-0.5 text-xs font-medium">Solo autónomos</span>}
+                  {o.only_autonomos && <span className="ml-2 rounded-full border border-border-strong bg-surface px-2 py-0.5 text-xs font-medium">Solo autónomos</span>}
                 </p>
                 {o.description && <p className="mt-2 line-clamp-3 text-sm text-muted">{o.description}</p>}
               </li>

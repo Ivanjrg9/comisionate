@@ -11,7 +11,7 @@ export default async function NewPasswordPage() {
   if (!data.user) redirect("/login?error=enlace");
   return (
     <>
-      <h1 className="mb-5 text-2xl font-bold">Elige tu contraseña nueva</h1>
+      <h1 className="mb-5 text-2xl font-semibold">Elige tu contraseña nueva</h1>
       <NewPasswordForm />
     </>
   );

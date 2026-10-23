@@ -14,7 +14,7 @@ export function Rating({ rating, reviews }: { rating: number | null; reviews: nu
 export function Badges({ stats }: { stats: CompanyStats }) {
   const items = [
     stats.verified && ["Empresa verificada", "bg-primary/15 text-on-tint"],
-    stats.founder && ["Empresa fundadora", "bg-accent/40"],
+    stats.founder && ["Empresa fundadora", "border border-border-strong bg-surface"],
     stats.good_payer && ["Buen pagador", "bg-primary/15 text-on-tint"],
   ].filter(Boolean) as [string, string][];
   return (

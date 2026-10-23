@@ -5,7 +5,7 @@ export function Avatar({ src, name, size = 48 }: { src: string | null; name: str
   ) : (
     <span
       aria-hidden
-      className="inline-flex items-center justify-center rounded-lg bg-primary/15 font-bold text-on-tint"
+      className="inline-flex items-center justify-center rounded-lg bg-primary/15 font-semibold text-on-tint"
       style={{ width: size, height: size }}
     >
       {name.trim().charAt(0).toUpperCase()}

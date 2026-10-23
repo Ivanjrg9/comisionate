@@ -12,7 +12,7 @@ export function LoginForm({ next }: { next?: string }) {
       {next && <input type="hidden" name="next" value={next} />}
       <Field label="Email" name="email" type="email" autoComplete="email" required error={state.fieldErrors?.email} />
       <Field label="Contraseña" name="password" type="password" autoComplete="current-password" required error={state.fieldErrors?.password} />
-      <p className="text-sm"><Link href="/recuperar" className="font-semibold text-primary underline">¿Has olvidado tu contraseña?</Link></p>
+      <p className="text-sm"><Link href="/recuperar" className="text-link underline underline-offset-4">¿Has olvidado tu contraseña?</Link></p>
       {state.error && <p role="alert" className="text-sm text-danger">{state.error}</p>}
       <button type="submit" disabled={pending} className={`${buttonClass} w-full`}>
         {pending ? "Entrando…" : "Entrar"}

@@ -42,7 +42,7 @@ export default async function CompanyHome() {
 
   return (
     <>
-      <h1 className="mb-2 text-2xl font-bold">{company.legal_name}</h1>
+      <h1 className="mb-2 text-2xl font-semibold">{company.legal_name}</h1>
       <p className="mb-6 text-muted">
         {company.status === "verificada" ? "Empresa verificada ✓" : "Pendiente de verificación por ComisionaTe: mientras tanto puedes preparar ofertas, pero no publicarlas."}
         {company.founder_until && !isPast(company.founder_until + "T23:59:59") && ` · Empresa fundadora: sin tarifa del 10 % hasta el ${new Date(company.founder_until).toLocaleDateString("es-ES")}.`}
@@ -50,7 +50,7 @@ export default async function CompanyHome() {
 
       <div className="mb-6 space-y-2">
         {(!company.sector_id || !company.billing_address) && (
-          <Link href="/empresa/perfil" className="block rounded-lg bg-accent/30 p-3 font-medium underline">
+          <Link href="/empresa/perfil" className="block rounded-xl border border-border-strong bg-surface p-3 font-medium underline">
             Completa el perfil de tu empresa (sector y datos de facturación) para poder publicar ofertas y recibir facturas.
           </Link>
         )}
@@ -66,7 +66,7 @@ export default async function CompanyHome() {
         )}
         {waiting > 0 && <Link href="/empresa/leads?estado=registrado" className="block rounded-lg bg-danger/10 p-3 font-medium underline">{waiting} lead(s) llevan más de 10 días sin respuesta. Tienes 15 días para contestar.</Link>}
         {overdue > 0 && <Link href="/empresa/comisiones" className="block rounded-lg bg-danger/10 p-3 font-medium underline">{overdue} comisión(es) con el plazo de pago vencido.</Link>}
-        {!!pendingRequests && <p className="rounded-lg bg-accent/30 p-3 font-medium">Tienes {pendingRequests} solicitud(es) de comerciales por aprobar, en cada oferta.</p>}
+        {!!pendingRequests && <p className="rounded-xl border border-border-strong bg-surface p-3 font-medium">Tienes {pendingRequests} solicitud(es) de comerciales por aprobar, en cada oferta.</p>}
       </div>
 
       <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -78,16 +78,16 @@ export default async function CompanyHome() {
 
       <div className="grid gap-8 lg:grid-cols-2">
         <section aria-labelledby="estados">
-          <h2 id="estados" className="mb-3 text-lg font-bold">Leads por estado</h2>
+          <h2 id="estados" className="mb-3 text-lg font-semibold">Leads por estado</h2>
           <BarList items={byStatus} />
         </section>
         <section aria-labelledby="ranking">
-          <h2 id="ranking" className="mb-3 text-lg font-bold">Ranking de comerciales</h2>
+          <h2 id="ranking" className="mb-3 text-lg font-semibold">Ranking de comerciales</h2>
           {top.length ? (
             <ol className="space-y-2">
               {top.map((r, i) => (
                 <li key={r.name} className="flex items-center justify-between rounded-lg border border-border p-3">
-                  <span><span className="mr-2 font-bold text-primary">{i + 1}.</span>{r.name}</span>
+                  <span><span className="mr-2 font-semibold text-primary">{i + 1}.</span>{r.name}</span>
                   <span className="text-sm text-muted">{r.sales} venta(s) · {r.leads} lead(s)</span>
                 </li>
               ))}

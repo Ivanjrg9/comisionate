@@ -17,9 +17,9 @@ export default async function CodesPage() {
 
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Mis códigos de referido</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Mis códigos de referido</h1>
       {!memberships?.length ? (
-        <p className="text-muted">Aún no te has unido a ninguna oferta. <Link href="/comercial/ofertas" className="font-semibold text-primary underline">Ver ofertas</Link></p>
+        <p className="text-muted">Aún no te has unido a ninguna oferta. <Link href="/comercial/ofertas" className="text-link underline underline-offset-4">Ver ofertas</Link></p>
       ) : (
         <ul className="space-y-3">
           {memberships.map((m) => {
@@ -31,13 +31,13 @@ export default async function CodesPage() {
                 <p className="text-sm text-muted">{offer.companies.legal_name} · {STATUS[m.status]} · desde {dateEs(m.accepted_at)}</p>
                 {m.status === "activa" && (
                   <div className="mt-3 flex flex-wrap items-center gap-3">
-                    <code className="rounded-lg bg-surface px-3 py-2 text-lg font-bold tracking-wide">{m.referral_code}</code>
+                    <code className="rounded-lg bg-surface px-3 py-2 text-lg font-semibold tracking-wide">{m.referral_code}</code>
                     <CopyButton text={m.referral_code} />
                     <Link href={`/comercial/leads/nuevo?codigo=${m.id}`} className="inline-flex min-h-10 items-center rounded-lg bg-primary px-4 font-semibold text-primary-foreground">
                       Registrar cliente
                     </Link>
                     <a href={`https://wa.me/?text=${encodeURIComponent(message)}`} target="_blank" rel="noreferrer"
-                       className="inline-flex min-h-10 items-center rounded-lg bg-[#25D366] px-4 font-semibold text-neutral-900">
+                       className="inline-flex min-h-10 items-center rounded-lg border border-border-strong bg-border px-4 text-sm font-medium hover:bg-[#303030]">
                       Compartir por WhatsApp
                     </a>
                   </div>

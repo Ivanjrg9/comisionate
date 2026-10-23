@@ -52,7 +52,7 @@ export default async function CompanyCommissionsPage() {
             <p className="text-sm text-muted">{lead.offers.title} · {sp.profiles.full_name} ({sp.fiscal === "autonomo" ? "autónomo" : "particular"})</p>
           </div>
           <div className="sm:text-right">
-            <p className="text-xl font-extrabold">{euros(c.amount_cents)}</p>
+            <p className="text-xl font-semibold">{euros(c.amount_cents)}</p>
             <CommissionBadge status={status} />
           </div>
         </div>
@@ -66,10 +66,10 @@ export default async function CompanyCommissionsPage() {
         {status === "pagada_empresa" && <p className="text-sm">Pagada. Esperando la confirmación del comercial.</p>}
         {status === "recibida" && !reviewed.has(c.id) && <ReviewForm commissionId={c.id} whom="al comercial" />}
         <div className="flex flex-wrap gap-4 text-sm font-medium">
-          {sp.fiscal === "autonomo" && hasInvoice && <a className="text-primary underline" href={`/api/comisiones/${c.id}/factura`}>Descargar factura del autónomo</a>}
+          {sp.fiscal === "autonomo" && hasInvoice && <a className="text-link underline underline-offset-4" href={`/api/comisiones/${c.id}/factura`}>Descargar factura del autónomo</a>}
           {sp.fiscal === "autonomo" && !hasInvoice && status !== "pendiente" && <span className="text-muted">Factura del autónomo: aún no subida</span>}
-          {sp.fiscal === "particular" && (status === "pagada_empresa" || status === "recibida") && <a className="text-primary underline" href={`/api/comisiones/${c.id}/justificante`}>Descargar justificante (PDF)</a>}
-          <Link className="text-primary underline" href={`/empresa/leads/${c.lead_id}`}>Ver lead</Link>
+          {sp.fiscal === "particular" && (status === "pagada_empresa" || status === "recibida") && <a className="text-link underline underline-offset-4" href={`/api/comisiones/${c.id}/justificante`}>Descargar justificante (PDF)</a>}
+          <Link className="text-link underline underline-offset-4" href={`/empresa/leads/${c.lead_id}`}>Ver lead</Link>
         </div>
       </li>
     );
@@ -77,14 +77,14 @@ export default async function CompanyCommissionsPage() {
 
   const section = (title: string, rows: typeof all, empty: string) => (
     <section className="mb-8">
-      <h2 className="mb-3 text-lg font-bold">{title}</h2>
+      <h2 className="mb-3 text-lg font-semibold">{title}</h2>
       {rows.length ? <ul className="space-y-3">{rows.map(card)}</ul> : <p className="text-muted">{empty}</p>}
     </section>
   );
 
   return (
     <>
-      <h1 className="mb-4 text-2xl font-bold">Comisiones</h1>
+      <h1 className="mb-4 text-2xl font-semibold">Comisiones</h1>
       <div className="mb-8 grid gap-3 sm:grid-cols-3">
         <Stat label="Por pagar a comerciales" value={euros(sum(due, "amount_cents"))} tone="danger" />
         <Stat label="Tarifa de ComisionaTe a facturar" value={euros(sum((c) => c.status !== "pendiente", "fee_cents"))} hint="Se factura a final de mes" />

@@ -20,7 +20,7 @@ export default async function AdminInvoicesPage({ searchParams }: PageProps<"/ad
   const { data } = await query;
   return (
     <>
-      <h1 className="mb-4 text-2xl font-bold">Facturas de ComisionaTe</h1>
+      <h1 className="mb-4 text-2xl font-semibold">Facturas de ComisionaTe</h1>
       <nav aria-label="Filtrar por estado" className="mb-6 flex gap-2 overflow-x-auto pb-1">
         {FILTERS.map(([v, label]) => (
           <Link key={label} href={v ? `/admin/facturas?estado=${v}` : "/admin/facturas"} aria-current={(filter ?? "") === v ? "page" : undefined}
@@ -34,9 +34,9 @@ export default async function AdminInvoicesPage({ searchParams }: PageProps<"/ad
               <div>
                 <p className="font-semibold">{i.number} · {(i.companies as unknown as { legal_name: string }).legal_name}</p>
                 <p className="text-sm text-muted">Emitida {dateEs(i.issued_at)} · {i.paid_at ? `pagada ${dateEs(i.paid_at)}` : `vence ${dateEs(i.due_at)}`}{i.dunning_stage > 0 && !i.paid_at && ` · escalado ${i.dunning_stage}/3`}</p>
-                <a href={`/api/facturas/${i.id}`} className="text-sm font-semibold text-primary underline">Descargar PDF</a>
+                <a href={`/api/facturas/${i.id}`} className="text-sm text-link underline underline-offset-4">Descargar PDF</a>
               </div>
-              <div className="text-right"><p className="text-xl font-extrabold">{euros(i.total_cents)}</p><p className="text-xs font-semibold capitalize">{i.status}</p></div>
+              <div className="text-right"><p className="text-xl font-semibold">{euros(i.total_cents)}</p><p className="text-xs font-semibold capitalize">{i.status}</p></div>
             </div>
             {!i.paid_at && <MarkInvoicePaid invoiceId={i.id} />}
           </li>

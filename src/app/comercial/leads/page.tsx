@@ -35,7 +35,7 @@ export default async function SalespersonLeadsPage({ searchParams }: PageProps<"
   return (
     <>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">Mis clientes</h1>
+        <h1 className="text-2xl font-semibold">Mis clientes</h1>
         <Link href="/comercial/leads/nuevo" className={buttonClass}>Registrar cliente</Link>
       </div>
       <SearchBox q={q} placeholder="Buscar por nombre o teléfono" keep={{ estado: filter }} />
@@ -44,7 +44,7 @@ export default async function SalespersonLeadsPage({ searchParams }: PageProps<"
         {FILTERS.map((s) => chip(`/comercial/leads?estado=${s}`, LEAD_STATUS_LABEL[s], filter === s))}
       </nav>
       {!leads?.length ? (
-        <p className="text-muted">{page > 1 && <><Link href="/comercial/leads" className="font-semibold text-primary underline">Volver a la primera página</Link>. </>}No hay clientes {filter ? "en este estado" : "registrados todavía"}.</p>
+        <p className="text-muted">{page > 1 && <><Link href="/comercial/leads" className="text-link underline underline-offset-4">Volver a la primera página</Link>. </>}No hay clientes {filter ? "en este estado" : "registrados todavía"}.</p>
       ) : (
         <ul className="space-y-3">
           {leads.map((l) => (

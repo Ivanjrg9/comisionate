@@ -21,11 +21,11 @@ export default async function OffersPage() {
   return (
     <>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold">Mis ofertas</h1>
+        <h1 className="text-2xl font-semibold">Mis ofertas</h1>
         <Link href="/empresa/ofertas/nueva" className={buttonClass}>Nueva oferta</Link>
       </div>
       {company.status !== "verificada" && (
-        <p role="status" className="mb-4 rounded-lg bg-accent/30 p-3 text-sm">
+        <p role="status" className="mb-4 rounded-xl border border-border-strong bg-surface p-3 text-sm">
           Tu empresa aún no está verificada. Puedes preparar ofertas como borrador; podrás publicarlas cuando el equipo de ComisionaTe te verifique.
         </p>
       )}

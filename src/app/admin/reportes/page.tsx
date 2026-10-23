@@ -17,7 +17,7 @@ export default async function AdminReportsPage() {
     .order("created_at", { ascending: false });
   return (
     <>
-      <h1 className="mb-6 text-2xl font-bold">Reportes</h1>
+      <h1 className="mb-6 text-2xl font-semibold">Reportes</h1>
       {!data?.length && <p className="text-muted">No hay reportes.</p>}
       <ul className="space-y-4">
         {(data ?? []).map((r) => {
@@ -31,7 +31,7 @@ export default async function AdminReportsPage() {
                 <p className="font-semibold">
                   {(r.target as unknown as { full_name: string } | null)?.full_name ?? (lead && <Link href={`/admin/leads/${r.lead_id}`} className="underline">Venta de {lead.customer_name}</Link>)}
                 </p>
-                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${r.status === "resuelto" ? "bg-surface" : "bg-accent/40"}`}>{STATUS[r.status as keyof typeof STATUS]}</span>
+                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${r.status === "resuelto" ? "bg-surface" : "border border-border-strong bg-surface"}`}>{STATUS[r.status as keyof typeof STATUS]}</span>
               </div>
               <p className="text-sm text-muted">Reportado por {(r.reporter as unknown as { full_name: string }).full_name} el {dateEs(r.created_at)}</p>
               <blockquote className="border-l-4 border-border pl-3 text-sm">{r.reason}</blockquote>

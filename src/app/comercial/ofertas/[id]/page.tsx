@@ -45,12 +45,12 @@ export default async function OfferDetailPage({ params, searchParams }: PageProp
       <header>
         <p className="text-sm text-muted">{company.legal_name}</p>
         {stats && <div className="mt-1 flex flex-wrap items-center gap-2"><Badges stats={stats} /><Rating rating={stats.rating === null ? null : Number(stats.rating)} reviews={stats.reviews} /></div>}
-        <h1 className="text-2xl font-bold">{offer.title}</h1>
+        <h1 className="text-2xl font-semibold">{offer.title}</h1>
       </header>
       <p className="whitespace-pre-line">{offer.description}</p>
 
       <section aria-labelledby="condiciones" className="space-y-3 rounded-xl border border-border bg-surface p-4">
-        <h2 id="condiciones" className="text-lg font-bold">Condiciones</h2>
+        <h2 id="condiciones" className="text-lg font-semibold">Condiciones</h2>
         <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-[auto_1fr]">
           {offer.lead_kind && (<><dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Comisión por lead</dt><dd className="mb-2 sm:mb-0">{amountLabel(offer.lead_kind, offer.lead_value!)} cuando se realiza la visita técnica. Se paga en 15 días.</dd></>)}
           {offer.sale_kind && (<><dt className="text-sm font-semibold text-muted sm:text-base sm:text-foreground">Comisión por venta</dt><dd className="mb-2 sm:mb-0">{amountLabel(offer.sale_kind, offer.sale_value!)} cuando el cliente firma. Tras 14 días de cancelación es firme y se paga en 15 días más.</dd></>)}
@@ -74,8 +74,8 @@ export default async function OfferDetailPage({ params, searchParams }: PageProp
 
       {links.length > 0 && (
         <section aria-labelledby="material">
-          <h2 id="material" className="mb-2 text-lg font-bold">Material de venta</h2>
-          <ul className="space-y-1">{links.map((m) => <li key={m.id}><a href={m.url} target="_blank" rel="noreferrer" className="text-primary underline">{m.name}</a></li>)}</ul>
+          <h2 id="material" className="mb-2 text-lg font-semibold">Material de venta</h2>
+          <ul className="space-y-1">{links.map((m) => <li key={m.id}><a href={m.url} target="_blank" rel="noreferrer" className="text-link underline underline-offset-4">{m.name}</a></li>)}</ul>
         </section>
       )}
 
@@ -83,7 +83,7 @@ export default async function OfferDetailPage({ params, searchParams }: PageProp
         <section className="rounded-xl border border-primary p-4">
           <p className="font-medium">{STATUS_TEXT[membership.status]}</p>
           {membership.status !== "rechazada" && <p className="mt-1">Tu código: <strong className="font-mono">{membership.referral_code}</strong></p>}
-          <Link href="/comercial/codigos" className="mt-3 inline-block font-semibold text-primary underline">Ver mis códigos</Link>
+          <Link href="/comercial/codigos" className="mt-3 inline-block text-link underline underline-offset-4">Ver mis códigos</Link>
         </section>
       ) : (
         <form action={joinOffer} className="space-y-3">
