@@ -12,7 +12,7 @@ Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Supabase (Auth, Postg
 
 ## Diseño
 
-La interfaz sigue el sistema **Graphite** (tema oscuro, bordes finos, tipografía Inter): los valores están como variables CSS en `src/app/globals.css`. La referencia de estilo original es `DESIGN.md`.
+La interfaz sigue el sistema **Graphite** (tema oscuro, bordes finos, tipografía Inter): los valores están como variables CSS en `src/app/globals.css`. La guía de estilo de referencia (una página de tokens de color, tipografía y componentes) no está incluida en el repositorio.
 
 ## Requisitos
 
